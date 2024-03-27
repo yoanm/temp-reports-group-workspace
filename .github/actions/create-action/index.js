@@ -14,8 +14,9 @@ async function run() {
     const REPORTS_INPUT = core.getInput('files', {required: true});
     // Following inputs are not marked as required by the action but a default value must be there, so using `required` works
     const PATH_INPUT = core.getInput('path', {required: true});
-    const FLAG_LIST_INPUT = core.getMultilineInput('flags', {required: true});
     const FOLLOW_SYMLINK_INPUT = core.getBooleanInput('follow-symbolic-links', {required: true});
+    // Following inputs are not required at all !
+    const FLAG_LIST_INPUT = core.getMultilineInput('flags');
 
     const trustedGroupDirectory = await core.group(
         'Resolve group directory path',

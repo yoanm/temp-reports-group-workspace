@@ -8,6 +8,15 @@ inputs:
   project-token:
     description: Codacy project token for the repository
     required: true
+  language: # @TODO see if doable to embed it on group metadata !
+    description: Force the language linked to the uploaded reports.
+    required: false
+  force-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+    description: Force the coverage parser used to parse uploaded reports
+    required: false
+  coverage-reporter-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+    description: Force CLI uploader version
+    required: false
   follow-symbolic-links:
     description: Indicates whether to follow symbolic links when resolving `path`
     required: false
@@ -72,6 +81,9 @@ runs:
       with:
         coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}
         project-token: ${{ inputs.project-token }}
+        language: ${{ inputs.language }}
+        force-coverage-parser: ${{ inputs.force-coverage-parser }}
+        coverage-reporter-version: ${{ inputs.coverage-reporter-version }}
 
     - name: Build action outputs
       id: build-outputs
