@@ -77,7 +77,7 @@ runs:
 
     - name: Upload to codacy
       id: upload
-      uses: codacy/codacy-coverage-reporter-action@v1
+      uses: codacy/codacy-coverage-reporter-action@v1.3.0
       with:
         coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}
         project-token: ${{ inputs.project-token }}
