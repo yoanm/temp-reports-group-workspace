@@ -6,7 +6,8 @@ inputs:
   name:
     description: Group name
     required: false
-    default: 'Reports group'
+    # Keep the default name without space ! Some uploaders don't support space on file name (codacy-coverage-reporter-action for instance => quote issue...)
+    default: 'Reports-group'
   format:
     description: |
       `clover`, `cobertura`, `lcov`, etc. Default to 'unknown'
