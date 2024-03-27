@@ -72,7 +72,7 @@ async function run() {
         const artifactList = [...artifactSet];
         SDK.outputs.bindFrom({
             artifacts: artifactList.join('\n'),
-            'artifacts-dwl-pattern': artifactList.length > 1 ? '@(' + artifactList.join('|') + ')' : artifactList.join(''),
+            'artifacts-dwl-pattern': '@(' + artifactList.join('|') + ')',
         });
         core.debug('Artifact mode applied');
     }

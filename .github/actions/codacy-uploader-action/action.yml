@@ -8,6 +8,15 @@ inputs:
   project-token:
     description: Codacy project token for the repository
     required: true
+  language: # @TODO see if doable to embed it on group metadata !
+    description: Force the language linked to the uploaded reports.
+    required: false
+  force-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+    description: Force the coverage parser used to parse uploaded reports
+    required: false
+  coverage-reporter-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+    description: Force CLI uploader version
+    required: false
   follow-symbolic-links:
     description: Indicates whether to follow symbolic links when resolving `path`
     required: false
@@ -39,7 +48,7 @@ runs:
 
     - name: Load groups metadata
       id: load-metadata
-      uses: yoanm/tmp-reports-group-workspace/.github/actions/load-metadata-action@develop
+      uses: yoanm/temp-reports-group-workspace/.github/actions/load-metadata-action@develop
       with:
         path: ${{ inputs.path }}
         format: string # String in order to concatenate interesting values
@@ -68,10 +77,13 @@ runs:
 
     - name: Upload to codacy
       id: upload
-      uses: codacy/codacy-coverage-reporter-action@v1
+      uses: codacy/codacy-coverage-reporter-action@v1.3.0
       with:
         coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}
         project-token: ${{ inputs.project-token }}
+        language: ${{ inputs.language }}
+        force-coverage-parser: ${{ inputs.force-coverage-parser }}
+        coverage-reporter-version: ${{ inputs.coverage-reporter-version }}
 
     - name: Build action outputs
       id: build-outputs
