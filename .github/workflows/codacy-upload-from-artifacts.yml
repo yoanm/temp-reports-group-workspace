@@ -78,16 +78,9 @@ jobs:
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}
-
-          language:
-            description: Force the language linked to the uploaded reports.
-            required: false
-          force-coverage-parser:
-            description: Force the coverage parser used to parse uploaded reports
-            required: false
-          coverage-reporter-version:
-            description: Force CLI uploader version
-            required: false
+          language: ${{ inputs.language }}
+          force-coverage-parser: ${{ inputs.force-coverage-parser }}
+          coverage-reporter-version: ${{ inputs.coverage-reporter-version }}
           # override-commit: ${{ inputs.override-commit }} Codacy uploader do not manage overridden commit https://github.com/codacy/codacy-coverage-reporter-action/pull/83
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
