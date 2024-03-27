@@ -3,9 +3,13 @@ name: 'Codacy report groups upload'
 on:
   workflow_call:
     inputs:
+      artifact:
+        description: TODO
+        required: false
+        type: string
       artifacts-pattern:
         description: TODO
-        required: true
+        required: false
         type: string
       run-id:
         description: |
@@ -64,9 +68,25 @@ jobs:
         uses: yoanm/temp-reports-group-workspace/.github/actions/attach-check-run-to-triggering-workflow-action@develop
         if: ${{ 'workflow_run' == github.event_name }}
 
+      - name: Validate inputs
+        uses: actions/github-script@v7
+        env:
+          INPUT_ARTIFACT: ${{ inputs.artifact }}
+          INPUT_ARTIFACTS-PATTERN: ${{ inputs.artifacts-pattern }}
+        with:
+          script: |
+            core.info('Validate inputs');
+            if (
+              core.getInput('artifact', {required: false}).length === 0
+              && core.getInput('artifacts-pattern', {required: false}).length === 0
+            ) {
+              core.setFailed('You must provide either an artifact name (`artifact` input) or an artifact pattern (`artifacts-pattern` input)');
+            }
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
+          name: ${{ inputs.artifact }}
           pattern: ${{ inputs.artifacts-pattern }}
           path: job-artifacts
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !

@@ -3,9 +3,13 @@ name: 'Codecov report groups upload'
 on:
   workflow_call:
     inputs:
+      artifact:
+        description: TODO
+        required: false
+        type: string
       artifacts-pattern:
         description: TODO
-        required: true
+        required: false
         type: string
       run-id:
         description: |
@@ -94,9 +98,25 @@ jobs:
         with:
           name: "My custom check"
 
+      - name: Validate inputs
+        uses: actions/github-script@v7
+        env:
+          INPUT_ARTIFACT: ${{ inputs.artifact }}
+          INPUT_ARTIFACTS-PATTERN: ${{ inputs.artifacts-pattern }}
+        with:
+          script: |
+            core.info('Validate inputs');
+            if (
+              core.getInput('artifact', {required: false}).length === 0
+              && core.getInput('artifacts-pattern', {required: false}).length === 0
+            ) {
+              core.setFailed('You must provide either an artifact name (`artifact` input) or an artifact pattern (`artifacts-pattern` input)');
+            }
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
+          name: ${{ inputs.artifact }}
           pattern: ${{ inputs.artifacts-pattern }}
           path: job-artifacts
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
@@ -127,25 +147,23 @@ jobs:
       - name: Checkout Repository
         if: ${{ steps.find-groups.outputs.count == 1 }}
         uses: actions/checkout@v4
-
-      - name: Fast-lane single group upload
-        if: ${{ steps.find-groups.outputs.count == 1 }}
-        uses: yoanm/temp-reports-group-workspace/.github/actions/codecov-uploader-action@develop
-        with:
-          path: ${{ steps.find-groups.outputs.paths }}
-          token: ${{ secrets.TOKEN }}
-          override-commit: ${{ inputs.override-commit }}
-          override-branch: ${{ inputs.override-branch }}
-          override-pr: ${{ inputs.override-pr }}
-          override-build: ${{ inputs.override-build }}
-          override-build-url: ${{ inputs.override-build-url }}
-          follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
+# @TODO refactor (paths is not group paths, but report parts here !)
+#      - name: Fast-lane single group upload
+#        if: ${{ steps.find-groups.outputs.count == 1 }}
+#        uses: yoanm/temp-reports-group-workspace/.github/actions/codecov-uploader-action@develop
+#        with:
+#          path: ${{ steps.find-groups.outputs.paths }}
+#          token: ${{ secrets.TOKEN }}
+#          override-commit: ${{ inputs.override-commit }}
+#          override-branch: ${{ inputs.override-branch }}
+#          override-pr: ${{ inputs.override-pr }}
+#          override-build: ${{ inputs.override-build }}
+#          override-build-url: ${{ inputs.override-build-url }}
+#          follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
   uploads:
     name: "${{ matrix.artifact }} - ${{ matrix.name }}"
     runs-on: ubuntu-latest
-    # If only one job exists, it should have been already executed on previous job (to avoid popping a runner just for one job)
-    if: ${{ needs.prepare.outputs.groups-count > 1 }}
     needs: [ prepare ]
     strategy:
       fail-fast: true
