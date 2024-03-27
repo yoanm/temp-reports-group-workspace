@@ -39,7 +39,7 @@ runs:
 
     - name: Load groups metadata
       id: load-metadata
-      uses: yoanm/tmp-reports-group-workspace/.github/actions/load-metadata-action@develop
+      uses: yoanm/temp-reports-group-workspace/.github/actions/load-metadata-action@develop
       with:
         path: ${{ inputs.path }}
         format: string # String in order to concatenate interesting values
