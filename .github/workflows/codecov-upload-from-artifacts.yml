@@ -188,6 +188,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
+          name: ${{ inputs.artifact }}
           pattern: ${{ matrix.artifacts-dwl-pattern }}
           path: job-artifacts
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
