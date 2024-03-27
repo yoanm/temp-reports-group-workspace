@@ -16,12 +16,15 @@ on:
         default: "${{ github.run_id }}"
       language: # @TODO see if doable to embed it on group metadata !
         description: Force the language linked to the uploaded reports.
+        type: string
         required: false
       force-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
         description: Force the coverage parser used to parse uploaded reports
+        type: string
         required: false
       coverage-reporter-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
         description: Force CLI uploader version
+        type: string
         required: false
 #      override-commit:
 #        description: |
