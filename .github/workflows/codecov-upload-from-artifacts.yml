@@ -107,7 +107,7 @@ jobs:
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
         if: ${{ 'workflow_run' == github.event_name }}
         with:
-          name: "My custom check"
+          name: ${{ inputs.override-job-name }}
 
       - name: Validate inputs
         uses: actions/github-script@v7
