@@ -1,4 +1,4 @@
-# To store on same repo as reports-group/codecov-uploader-action action if doable
+# To store on same repo as reports-group/gha-codecov-uploader action if doable
 name: 'Codecov report groups upload'
 on:
   workflow_call:
@@ -93,7 +93,7 @@ jobs:
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/.github/actions/attach-check-run-to-triggering-workflow-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@develop
         if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: "My custom check"
@@ -129,7 +129,7 @@ jobs:
 
       - name: Find groups
         id: find-groups
-        uses: yoanm/temp-reports-group-workspace/.github/actions/find-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-find@develop
         with:
           path: job-artifacts
           format: glob-string
@@ -150,7 +150,7 @@ jobs:
 # @TODO refactor (paths is not group paths, but report parts here !)
 #      - name: Fast-lane single group upload
 #        if: ${{ steps.find-groups.outputs.count == 1 }}
-#        uses: yoanm/temp-reports-group-workspace/.github/actions/codecov-uploader-action@develop
+#        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@develop
 #        with:
 #          path: ${{ steps.find-groups.outputs.paths }}
 #          token: ${{ secrets.TOKEN }}
@@ -182,7 +182,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/.github/actions/attach-check-run-to-triggering-workflow-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@develop
         if: ${{ 'workflow_run' == github.event_name }}
 
       - name: Download artifacts
@@ -201,7 +201,7 @@ jobs:
 
       - name: Upload reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/.github/actions/codecov-uploader-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@develop
         with:
           path: ${{ matrix.path }}
           token: ${{ secrets.TOKEN }}

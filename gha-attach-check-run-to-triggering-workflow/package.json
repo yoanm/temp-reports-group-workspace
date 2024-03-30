@@ -1,5 +1,5 @@
 {
-  "name": "attach-check-run-to-triggering-workflow-action",
+  "name": "gha-attach-check-run-to-triggering-workflow",
   "private": true,
   "version": "0.0.0",
   "author": "yoanm",

@@ -20,7 +20,7 @@ description: |
 
       - name: Find reports groups
         id: find-groups
-        uses: reports-group/find-action@v0.1.0
+        uses: reports-group/gha-find@v0.1.0
         with:
           path: build/reports-groups
           #format: string # default value
@@ -45,7 +45,7 @@ description: |
 
       - name: Find reports groups
         id: find-groups
-        uses: reports-group/find-action@v0.1.0
+        uses: reports-group/gha-find@v0.1.0
         with:
           path: build/reports-groups
           #format: string # default value
@@ -85,8 +85,8 @@ inputs:
         - Property `artifact-dwl-pattern`: JSON list of unique `metadata.artifact` values.
           **Filled only if `artifacts-mode` is enabled !**
       
-        If you are looking to merge multiple group together into a single metadata, rely on reports-group/load-metadata-action instead. If you still
-        need to filter in & out and/or to group first, rely on this action and pass the `paths` output to reports-group/load-metadata-action `path` input.
+        If you are looking to merge multiple group together into a single metadata, rely on reports-group/gha-load-metadata instead. If you still
+        need to filter in & out and/or to group first, rely on this action and pass the `paths` output to reports-group/gha-load-metadata `path` input.
       
       - Format `string` produces the same metadata shape than `json` format, except that every property is joined with `glue-string`, 
         so every property is a string value.
@@ -184,7 +184,7 @@ inputs:
   paths-only-mode:
     description: |
       Setting this to `true` will avoid subsequent operation (only filtering in & out has been performed and `artifacts-mode` enabled if needed) and just
-      build the list of path. Use this along with `path` input from reports-group/load-metadata-action in order to quickly merge multiple group into one.
+      build the list of path. Use this along with `path` input from reports-group/gha-load-metadata in order to quickly merge multiple group into one.
     required: false
     default: 'false'
   # "Grouping" phase
@@ -227,7 +227,7 @@ outputs:
       Only filled if `artifacts-mode` is enabled !
   artifacts-dwl-pattern:
     description: |
-      Glob compatible list of artefact name, compatible with with `action/download-artifact-action`
+      Glob compatible list of artefact name, compatible with with `actions/download-artifact`
       Only filled if `artifacts-mode` is enabled !
   list:
     description: |

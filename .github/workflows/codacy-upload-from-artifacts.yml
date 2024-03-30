@@ -1,4 +1,4 @@
-# To store on same repo as reports-group/codacy-uploader-action action if doable !
+# To store on same repo as reports-group/gha-codacy-uploader action if doable !
 name: 'Codacy report groups upload'
 on:
   workflow_call:
@@ -65,7 +65,7 @@ jobs:
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/.github/actions/attach-check-run-to-triggering-workflow-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@develop
         if: ${{ 'workflow_run' == github.event_name }}
 
       - name: Validate inputs
@@ -94,7 +94,7 @@ jobs:
 
       - name: Upload all reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/.github/actions/codacy-uploader-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@develop
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}
