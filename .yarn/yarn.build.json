@@ -1,0 +1,82 @@
+{
+  "comment": "This is an auto-generated file, it keeps track of whats been built. This is a local file, don't store this in version control.",
+  "packages": {
+    "load-metadata#build": {
+      "checksum": "09e2377333e8230fc679dcaa87d65cf21f3a6fd9",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build",
+      "exitCode": "1"
+    },
+    "create#build": {
+      "checksum": "c4cb225c81968201c01557af73fa29203427d152",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build",
+      "exitCode": "2"
+    },
+    "node-sdk#build": {
+      "checksum": "3b7b244227aa58bcbd9727603f0a4983137a293a",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build",
+      "exitCode": "2"
+    },
+    "find#build": {
+      "checksum": "7aba16310b5c93a0fdb339cf0181e09120e03e9d",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "node-gha-helpers#build": {
+      "checksum": "fe8804e06a18472d057403ebba3135496aa34eb5",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "gha-attach-check-run-to-triggering-workflow#build": {
+      "checksum": "1209ed3eef0b60cfb027dfb461ff8319e15b6edf",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "gha-fetch-workflow-metadata#build": {
+      "checksum": "66fff44458b3f705c9f99ac380336cb007e01feb",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "gha-create#build": {
+      "checksum": "ccdfab110930d3bfa29faf94062e31c05dacee41",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "gha-find#build": {
+      "checksum": "cf6a3535b7a3d15106204f636814d87098b350f0",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build",
+      "exitCode": "2"
+    },
+    "gha-load-metadata#build": {
+      "checksum": "d5f456a4c055f7eb5a328e2ce10b8e0ef68fcf21",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "gha-codacy-uploader#build": {
+      "checksum": "3e18d3826cdd15e3a95cecc5128f7fab6d5f72fc",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build"
+    },
+    "gha-codecov-uploader#build": {
+      "checksum": "7928c5a8547810d615fb15172766204c54381e0a",
+      "status": "succeeded",
+      "rerun": false,
+      "command": "build",
+      "exitCode": "1"
+    }
+  }
+}

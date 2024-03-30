@@ -1,0 +1,23 @@
+{
+  "name": "reports-group",
+  "private": true,
+  "description": "Reports group yarn workspace",
+  "author": "yoanm",
+  "license": "AGPL-3.0-only",
+  "workspaces": [
+    "gha-attach-check-run-to-triggering-workflow",
+    "gha-codacy-uploader",
+    "gha-codecov-uploader",
+    "gha-create",
+    "gha-fetch-workflow-metadata",
+    "gha-find",
+    "gha-load-metadata",
+    "node-gha-helpers",
+    "node-sdk"
+  ],
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.57.0"
+  },
+  "packageManager": "yarn@4.1.1"
+}

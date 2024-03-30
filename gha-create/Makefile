@@ -7,11 +7,11 @@ build: install package
 
 .PHONY: package
 package:
-	rm -Rf dist/* && ./node_modules/.bin/ncc build index.js --minify --source-map --license LICENSE --out dist
+	rm -Rf dist/* && npx ncc build index.js --minify --source-map --license LICENSE --out dist
 
 .PHONY: lint
 lint:
-	./node_modules/.bin/eslint  index.js
+	npx eslint  index.js
 
 .PHONY: test
 test:

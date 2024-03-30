@@ -1,10 +1,12 @@
+.PHONY: all
+all: build
+
 .PHONY: install
 install:
-	@echo "Nothing to install !"
+	yarn install
 
 .PHONY: build
-build:
-	@echo "Nothing to build !"
+build: install package
 
 .PHONY: package
 package:
