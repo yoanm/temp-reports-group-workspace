@@ -1,9 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "ES2015", // Must be the NCC target !
-    "module": "ES2015", // Must be the NCC target !
+    "target": "es2015", // Must be the NCC target !
+    "module": "es2015", // Must be the NCC target !
     "moduleResolution": "node", // In order to avoid issue with NCC !
+    "declaration": true, // Generate d.ts files
     "baseUrl": "./",
     "rootDir": "./src",
     "outDir": "./dist",

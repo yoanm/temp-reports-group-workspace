@@ -1,9 +1,10 @@
-const {statSync} = require('fs'); // @TODO move to 'imports from' when moved to TS !
-const path = require("path"); // @TODO move to 'imports from' when moved to TS !
+const {statSync} = require('fs'); 
+import path from 'path'; 
 
-const core = require('@actions/core'); // @TODO move to 'imports from' when moved to TS !
+import * as core from '@actions/core'; 
 
-const SDK = require('node-sdk'); // @TODO move to 'imports from' when moved to TS !
+import * as SDK from 'node-sdk'; 
+import type {Metadata, MergeField} from 'node-sdk'; 
 
 async function run() {
     const trustedPathConverter = SDK.path.trustedPathHelpers();
@@ -91,7 +92,7 @@ async function run() {
     /** @type {Metadata[][]} */
     let trustedMetadataListOfList = [trustedMetadataList];
     /** @type {MergeField[]} */
-    const groupByItemList = GROUP_BY_INPUT.length > 0 ? GROUP_BY_INPUT.split(',') : [];
+    const groupByItemList: MergeField[] = GROUP_BY_INPUT.length > 0 ? GROUP_BY_INPUT.split(',') as MergeField[] : [];
     if (groupByItemList.length > 0) {
         core.info('Merge metadata list');
         trustedMetadataListOfList = SDK.merge.groupMetadataList(trustedMetadataList, groupByItemList);
@@ -99,7 +100,7 @@ async function run() {
     }
     // "Merging" phase
     core.info('Build action outputs');
-    const outputs = SDK.format.convertMetadataListToFindActionOutput(trustedMetadataListOfList, FORMAT_INPUT, GLUE_STRING_INPUT, ENABLE_ARTIFACT_MODE)
+    const outputs = SDK.format.convertMetadataListToFindActionOutput(trustedMetadataListOfList, FORMAT_INPUT, GLUE_STRING_INPUT)
 
     // Apply `matrix-mode`
     if (ENABLE_MATRIX_MODE) {
@@ -107,6 +108,7 @@ async function run() {
 
         SDK.outputs.bindFrom({
             ...outputs,
+            // @ts-expect-error: undefined is not an allowed property value
             list: undefined,
             matrix: JSON.stringify({
                 include: outputs.list.map(md => Array.isArray(md.name) ? JSON.stringify(md) : md)

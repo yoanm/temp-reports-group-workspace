@@ -1,3 +1,5 @@
+import {ALLOWED_MERGED_VALUES} from "./merge";
+
 export type Metadata = {
     name: string;
     format: string;
@@ -6,6 +8,7 @@ export type Metadata = {
     flags: string[];
     artifact?: string;
 }
+export type MetadataProperty<K extends keyof Metadata> = K;
 export type MetadataString = {
     name: string;
     format: string;
@@ -37,9 +40,4 @@ export type MultiGroupOutput<MType extends MetadataString|MetadataJson = Metadat
     list: MType[];
 }
 
-export type MetadataKeyMapper<K extends keyof Metadata> = (list: Metadata[], property: K) => Metadata[K][];
-
-
-export type IdentityTypeMapper<T = any> = (list: T[]) => T[];
-
-export type MergeField = (keyof Metadata) & ('name' | 'flags' | 'format' | 'artifact');
+export type MergeField = 'name' | 'flags' | 'format' | 'artifact';

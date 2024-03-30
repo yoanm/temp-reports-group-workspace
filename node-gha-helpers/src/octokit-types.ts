@@ -1,5 +1,5 @@
 import {getOctokit} from '@actions/github';
-import type { Endpoints } from "@octokit/types";
+import type { Endpoints } from '@octokit/types';
 
 export type GHOctokit = ReturnType<typeof getOctokit>;
 

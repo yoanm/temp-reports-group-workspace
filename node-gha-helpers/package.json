@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "author": "yoanm",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "AGPL-3.0-only",
   "scripts": {
     "build": "make build"

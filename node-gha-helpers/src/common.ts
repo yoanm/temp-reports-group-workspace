@@ -7,6 +7,6 @@ export function buildWorkflowRunUrl(
     return serverUrl + '/' + repositorySlug + '/actions/runs/' + runId + (!prNumber ? '' : '?pr=' + prNumber);
 }
 
-export function buildWorkflowJobRunUrl({html_url: jobUrl}: {html_url: string}, prNumber: (string|number|null|undefined) = undefined) {
-    return jobUrl + (!prNumber ? '' : '?pr=' + prNumber)
+export function enhanceWorkflowJobRunUrl(jobUrl: string, prNumber: (string|number|null|undefined) = undefined) {
+    return jobUrl + (!prNumber ? '' : '?pr=' + prNumber);
 }
