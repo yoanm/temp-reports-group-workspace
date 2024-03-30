@@ -41,6 +41,11 @@ on:
         required: false
         type: boolean
         default: false
+      override-job-name:
+        description: Override the job name
+        required: false
+        type: string
+        default: "Upload reports to codacy"
 
     secrets:
       PROJECT_TOKEN:
@@ -56,7 +61,7 @@ on:
 
 jobs:
   upload:
-    name: Upload all reports
+    name: ${{ inputs.override-job-name }}
     runs-on: ubuntu-latest
     outputs:
       groups: ${{ steps.upload.outputs.groups }}

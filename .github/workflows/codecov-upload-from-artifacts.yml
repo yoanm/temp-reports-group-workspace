@@ -69,6 +69,11 @@ on:
         required: false
         type: boolean
         default: false
+      override-job-name:
+        description: Override the job name
+        required: false
+        type: string
+        default: "Upload reports to codecov"
 
     secrets:
       TOKEN:
@@ -84,7 +89,7 @@ on:
 
 jobs:
   prepare:
-    name: 📮 🗃️ Prepare uploads
+    name: ${{ inputs.override-job-name }}
     runs-on: ubuntu-latest
     outputs:
       groups-count: ${{ steps.find-groups.outputs.count }}
