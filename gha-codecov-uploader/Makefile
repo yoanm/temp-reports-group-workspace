@@ -12,6 +12,10 @@ build: install package
 package:
 	@echo "Nothing to pack !"
 
+.PHONY: compile
+compile:
+	rm -rf dist/* && tsc -p ./tsconfig.json
+
 .PHONY: lint
 lint:
 	@echo "Nothing to lint !"

@@ -12,6 +12,10 @@ build: install package
 package:
 	rm -rf dist/* && npx ncc build index.js --minify --source-map --license LICENSE --out dist
 
+.PHONY: compile
+compile:
+	rm -rf dist/* && tsc -p ./tsconfig.json
+
 .PHONY: lint
 lint:
 	eslint index.js

@@ -10,7 +10,7 @@ package: compile
 
 .PHONY: compile
 compile:
-	tsc -p ./tsconfig.json
+	rm -rf dist/* && tsc -p ./tsconfig.json
 
 .PHONY: lint
 lint:
