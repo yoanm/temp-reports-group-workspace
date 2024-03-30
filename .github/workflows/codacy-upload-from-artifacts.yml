@@ -1,11 +1,15 @@
-# To store on same repo as reports-group/codacy-uploader-action action if doable !
+# To store on same repo as reports-group/gha-codacy-uploader action if doable !
 name: 'Codacy report groups upload'
 on:
   workflow_call:
     inputs:
+      artifact:
+        description: TODO
+        required: false
+        type: string
       artifacts-pattern:
         description: TODO
-        required: true
+        required: false
         type: string
       run-id:
         description: |
@@ -14,6 +18,18 @@ on:
         required: false
         type: string
         default: "${{ github.run_id }}"
+      language: # @TODO see if doable to embed it on group metadata !
+        description: Force the language linked to the uploaded reports.
+        type: string
+        required: false
+      force-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+        description: Force the coverage parser used to parse uploaded reports
+        type: string
+        required: false
+      coverage-reporter-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+        description: Force CLI uploader version
+        type: string
+        required: false
 #      override-commit:
 #        description: |
 #          Force the commit SHA linked to the uploaded reports.
@@ -29,6 +45,7 @@ on:
     secrets:
       PROJECT_TOKEN:
         required: true
+
     outputs:
       groups:
         description: TODO
@@ -49,12 +66,28 @@ jobs:
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
     steps:
       - name: 'Check run ○'
-        uses: yoanm/tmp-reports-group-workspace/.github/actions/attach-check-run-to-triggering-workflow-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
         if: ${{ 'workflow_run' == github.event_name }}
+
+      - name: Validate inputs
+        uses: actions/github-script@v7
+        env:
+          INPUT_ARTIFACT: ${{ inputs.artifact }}
+          INPUT_ARTIFACTS-PATTERN: ${{ inputs.artifacts-pattern }}
+        with:
+          script: |
+            core.info('Validate inputs');
+            if (
+              core.getInput('artifact', {required: false}).length === 0
+              && core.getInput('artifacts-pattern', {required: false}).length === 0
+            ) {
+              core.setFailed('You must provide either an artifact name (`artifact` input) or an artifact pattern (`artifacts-pattern` input)');
+            }
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
+          name: ${{ inputs.artifact }}
           pattern: ${{ inputs.artifacts-pattern }}
           path: job-artifacts
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
@@ -62,10 +95,13 @@ jobs:
 
       - name: Upload all reports
         id: upload
-        uses: yoanm/tmp-reports-group-workspace/.github/actions/codacy-uploader-action@develop
+        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@improve
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}
+          language: ${{ inputs.language }}
+          force-coverage-parser: ${{ inputs.force-coverage-parser }}
+          coverage-reporter-version: ${{ inputs.coverage-reporter-version }}
           # override-commit: ${{ inputs.override-commit }} Codacy uploader do not manage overridden commit https://github.com/codacy/codacy-coverage-reporter-action/pull/83
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
