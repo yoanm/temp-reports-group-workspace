@@ -3,10 +3,7 @@ install:
 	yarn install
 
 .PHONY: build
-build: install package
-
-.PHONY: package
-package:
+build:
 	rm -rf dist/* && npx ncc build src/index.ts --target es2015 --minify --source-map --license LICENSE --out dist
 
 .PHONY: compile

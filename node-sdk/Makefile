@@ -3,13 +3,7 @@ install:
 	yarn install
 
 .PHONY: build
-build: install package
-
-.PHONY: package
-package: compile
-
-.PHONY: compile
-compile:
+build:
 	rm -rf dist/* && tsc -p ./tsconfig.json
 
 .PHONY: lint

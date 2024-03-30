@@ -1,16 +1,5 @@
 {
   "name": "gha-codacy-uploader",
   "private": true,
-  "version": "0.0.0",
-  "author": "yoanm",
-  "license": "AGPL-3.0-only",
-  "scripts": {
-    "build": "make build"
-  },
-  "packageManager": "yarn@4.1.1",
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.12.2",
-    "typescript": "^5.4.3"
-  }
+  "license": "AGPL-3.0-only"
 }

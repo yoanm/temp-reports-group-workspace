@@ -6,11 +6,8 @@ install:
 	yarn install
 
 .PHONY: build
-build: install package
-
-.PHONY: package
-package:
-	@echo "Nothing to pack !"
+build:
+	@echo "Nothing to build !"
 
 .PHONY: compile
 compile:
