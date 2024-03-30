@@ -45,6 +45,7 @@ on:
     secrets:
       PROJECT_TOKEN:
         required: true
+
     outputs:
       groups:
         description: TODO
@@ -65,7 +66,7 @@ jobs:
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@develop
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
         if: ${{ 'workflow_run' == github.event_name }}
 
       - name: Validate inputs
@@ -94,7 +95,7 @@ jobs:
 
       - name: Upload all reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@develop
+        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@improve
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}
