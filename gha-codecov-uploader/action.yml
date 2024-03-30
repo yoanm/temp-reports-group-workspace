@@ -8,43 +8,47 @@ inputs:
   token:
     description: Codecov upload token
     required: true
-  override-commit:
+  ## >>> Override Git/GitHub info linked to the uploaded reports >>>
+  force-git-commit:
     description: |
-      Force the commit SHA linked to the uploaded reports.
+      Override the commit SHA linked to the uploaded reports, rather than relying on uploader auto-discovery.
       Mostly useful for specific cases (e.g. `workflow_run` workflow).
       
-      In case input is filled, `override-branch` input (as well as `override-pr` in case of `pull_request` event)
+      In case input is filled, `force-git-branch` input (as well as `force-gh-pr` in case of `pull_request` event)
       should be filled too in order to keep consitency between values !
     required: false
-  override-branch:
+  force-git-branch:
     description: |
       Force the branch linked to the uploaded reports.
       Mostly useful for specific cases (e.g. `workflow_run` workflow).
       
-      In case input is filled, `override-commit` input (as well as `override-pr` in case of `pull_request` event)
+      In case input is filled, `force-git-commit` input (as well as `force-gh-pr` in case of `pull_request` event)
       should be filled too in order to keep consitency between values !
     required: false
-  override-pr:
+  force-gh-pr:
     description: |
       Force the PR linked to the uploaded reports.
       Mostly useful for specific cases (e.g. `workflow_run` workflow triggered by a `pull_request` workflow).
       
-      In case input is filled, `override-commit` and `override-branch` inputs should be filled too in order
+      In case input is filled, `force-git-commit` and `force-git-branch` inputs should be filled too in order
       to keep consitency between values !
     required: false
-  override-build:
+  ## <<< Override Git/GitHub info linked to the uploaded reports <<<
+  ## >>> Override underlying uploader inputs >>>
+  force-uploader-build:
     description: |
       Workflow run ID to link to the uploaded reports.
       Mostly useful for specific cases (e.g. `workflow_run` workflow).
     required: false
-  override-build-url:
+  force-uploader-build-url:
     description: |
       Workflow run url to link to the uploaded reports.
       Usually something like `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}` (based on GHA environment variables).
       Mostly useful for specific cases (e.g. `workflow_run` workflow).
       
-      In case input is filled, `override-build` input most likely need to be filled too in order to keep consitency between values !
+      In case input is filled, `force-uploader-build` input most likely need to be filled too in order to keep consitency between values !
     required: false
+  ## <<< Override underlying uploader inputs <<<
   follow-symbolic-links:
     description: Indicates whether to follow symbolic links when resolving `path`
     required: false
@@ -121,12 +125,11 @@ runs:
         name: ${{ steps.build-uploader-options.outputs.name }}
         files: ${{ steps.build-uploader-options.outputs.files }}
         flags: ${{ steps.build-uploader-options.outputs.flags }}
-        commit_parent: ${{ inputs.commit-parent }}
-        override_branch: ${{ inputs.override-branch }}
-        override_commit: ${{ inputs.override-commit }}
-        override_pr: ${{ inputs.override-pr }}
-        override_build: ${{ inputs.override-build }}
-        override_build_url: ${{ inputs.override-build-url }}
+        override_branch: ${{ inputs.force-git-branch }}
+        override_commit: ${{ inputs.force-git-commit }}
+        override_pr: ${{ inputs.force-gh-pr }}
+        override_build: ${{ inputs.force-uploader-build }}
+        override_build_url: ${{ inputs.force-uploader-build-url }}
         # underlying CLI behavior
         disable_search: true
         # GHAction behavior

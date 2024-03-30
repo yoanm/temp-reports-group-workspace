@@ -5,41 +5,50 @@ on:
     inputs:
       artifact:
         description: TODO
-        required: false
         type: string
+        required: false
       artifacts-pattern:
         description: TODO
-        required: false
         type: string
+        required: false
       run-id:
         description: |
           The id of the workflow run where the artifacts were uploaded from (default to current run).
           In case artifacts have been uploadded from another run, this input must be filled with original workflow run id !
-        required: false
         type: string
+        required: false
         default: "${{ github.run_id }}"
-      language: # @TODO see if doable to embed it on group metadata !
+      ## >>> Override Git/GitHub info linked to the uploaded reports >>>
+      force-git-commit:
+        description: |
+          Override the commit SHA linked to the uploaded reports, rather than relying on uploader auto-discovery.
+          Mostly useful for specific cases (e.g. `workflow_run` workflow).
+        type: string
+        required: false
+      ## <<< Override Git/GitHub info linked to the uploaded reports <<<
+      ## >>> Override underlying uploader inputs >>>
+      force-uploader-language: # @TODO see if doable to embed it on group metadata !
         description: Force the language linked to the uploaded reports.
         type: string
         required: false
-      force-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+      force-uploader-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
         description: Force the coverage parser used to parse uploaded reports
         type: string
         required: false
-      coverage-reporter-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+      force-uploader-cli-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
         description: Force CLI uploader version
         type: string
         required: false
-#      override-commit:
-#        description: |
-#          Force the commit SHA linked to the uploaded reports.
-#          Mostly useful for specific cases (e.g. `workflow_run` workflow).
-#        required: false
-#        type: string
+      ## <<< Override underlying uploader inputs <<<
+      override-job-name:
+        description: Override the job name
+        type: string
+        required: false
+        default: "Upload reports to codacy"
       follow-symbolic-links:
         description: Indicates whether to follow symbolic links when resolving groups path
-        required: false
         type: boolean
+        required: false
         default: false
 
     secrets:
@@ -56,7 +65,7 @@ on:
 
 jobs:
   upload:
-    name: Upload all reports
+    name: ${{ inputs.override-job-name }}
     runs-on: ubuntu-latest
     outputs:
       groups: ${{ steps.upload.outputs.groups }}
@@ -68,6 +77,8 @@ jobs:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
         if: ${{ 'workflow_run' == github.event_name }}
+        with:
+          name: ${{ inputs.override-job-name }}
 
       - name: Validate inputs
         uses: actions/github-script@v7
@@ -99,10 +110,10 @@ jobs:
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}
-          language: ${{ inputs.language }}
-          force-coverage-parser: ${{ inputs.force-coverage-parser }}
-          coverage-reporter-version: ${{ inputs.coverage-reporter-version }}
-          # override-commit: ${{ inputs.override-commit }} Codacy uploader do not manage overridden commit https://github.com/codacy/codacy-coverage-reporter-action/pull/83
+          force-git-commit: ${{ inputs.force-git-commit }}
+          force-uploader-language: ${{ inputs.force-uploader-language }}
+          force-uploader-coverage-parser: ${{ inputs.force-uploader-coverage-parser }}
+          force-uploader-cli-version: ${{ inputs.force-uploader-cli-version }}
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
       - name: DEBUG
