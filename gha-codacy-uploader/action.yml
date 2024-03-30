@@ -8,15 +8,23 @@ inputs:
   project-token:
     description: Codacy project token for the repository
     required: true
-  language: # @TODO see if doable to embed it on group metadata !
+  ## >>> Override Git/GitHub info linked to the uploaded reports >>>
+  force-git-commit: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+    description: |
+      Override the commit SHA linked to the uploaded reports, rather than relying on uploader auto-discovery.
+      Mostly useful for specific cases (e.g. `workflow_run` workflow).
+  ## <<< Override Git/GitHub info linked to the uploaded reports <<<
+  ## >>> Override underlying uploader inputs >>>
+  force-uploader-language: # @TODO see if doable to embed it on group metadata !
     description: Force the language linked to the uploaded reports.
     required: false
-  force-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+  force-uploader-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
     description: Force the coverage parser used to parse uploaded reports
     required: false
-  coverage-reporter-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+  force-uploader-cli-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
     description: Force CLI uploader version
     required: false
+  ## <<< Override underlying uploader inputs <<<
   follow-symbolic-links:
     description: Indicates whether to follow symbolic links when resolving `path`
     required: false
@@ -77,13 +85,14 @@ runs:
 
     - name: Upload to codacy
       id: upload
-      uses: codacy/codacy-coverage-reporter-action@v1.3.0
+      uses: yoanm/codacy-coverage-reporter-action@feature/force-commit-sha
       with:
-        coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}
         project-token: ${{ inputs.project-token }}
-        language: ${{ inputs.language }}
-        force-coverage-parser: ${{ inputs.force-coverage-parser }}
-        coverage-reporter-version: ${{ inputs.coverage-reporter-version }}
+        coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}
+        language: ${{ inputs.force-uploader-language }}
+        force-coverage-parser: ${{ inputs.force-uploader-coverage-parser }}
+        force-commit-sha: ${{ inputs.force-git-commit }}
+        coverage-reporter-version: ${{ inputs.force-uploader-cli-version }}
 
     - name: Build action outputs
       id: build-outputs
