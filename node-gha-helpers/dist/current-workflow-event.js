@@ -1,16 +1,5 @@
-const {context: ghaContext} = require('@actions/github');
-
-/**
- * @returns {boolean}
- */
+import { context as ghaContext } from '@actions/github';
 export const isWorkflowRunEvent = () => 'workflow_run' === ghaContext.eventName;
-
-/**
- * @returns {boolean}
- */
 export const isPullRequestEvent = () => 'pull_request' === ghaContext.eventName;
-
-/**
- * @returns {boolean}
- */
 export const isPushEvent = () => 'push' === ghaContext.eventName;
+//# sourceMappingURL=current-workflow-event.js.map

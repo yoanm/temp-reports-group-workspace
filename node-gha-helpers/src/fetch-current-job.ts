@@ -1,14 +1,11 @@
-const {context: ghaContext} = require('@actions/github');
-const core = require('@actions/core');
+import {context as ghaContext} from '@actions/github';
+import * as core from '@actions/core';
+import type {WorkflowJob} from "./common-types";
+import type {GHOctokit} from "./octokit-types";
 
 const {RUNNER_NAME} = process.env;
 
-/**
- * @param {OctokitInterface} octokit
- *
- * @returns {Promise<WorkflowJob|undefined>}
- */
-export async function fetchCurrentJob(octokit) {
+export async function fetchCurrentJob(octokit: GHOctokit): Promise<WorkflowJob|undefined> {
     const jobList = await getWorkflowJobsForRunId(octokit, ghaContext.repo.owner, ghaContext.repo.repo, ghaContext.runId);
     const candidateList = [];
     for (const job of jobList) {
@@ -32,17 +29,14 @@ export async function fetchCurrentJob(octokit) {
     return candidateList.shift();
 }
 
-/**
- * @param {OctokitInterface} octokit
- * @param {string} owner
- * @param {string} repo
- * @param {string} runId
- *
- * @return {Promise<WorkflowJob[]>}
- */
-async function getWorkflowJobsForRunId(octokit, owner, repo, runId) {
+async function getWorkflowJobsForRunId(
+    octokit: GHOctokit,
+    owner: string,
+    repo: string,
+    runId: number
+): Promise<WorkflowJob[]> {
     return octokit.paginate(
-        'GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs',
+        octokit.rest.actions.listJobsForWorkflowRun,
         {
             filter: 'latest',
             // Url path parameters

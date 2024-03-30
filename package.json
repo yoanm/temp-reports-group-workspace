@@ -16,8 +16,11 @@
     "node-sdk"
   ],
   "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.12.2",
     "@vercel/ncc": "^0.38.1",
-    "eslint": "^8.57.0"
+    "eslint": "^8.57.0",
+    "typescript": "^5.4.3"
   },
   "packageManager": "yarn@4.1.1"
 }

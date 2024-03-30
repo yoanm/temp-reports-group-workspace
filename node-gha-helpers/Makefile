@@ -6,8 +6,11 @@ install:
 build: install package
 
 .PHONY: package
-package:
-	@echo "Nothing to build"
+package: compile
+
+.PHONY: compile
+compile:
+	tsc -p ./tsconfig.json
 
 .PHONY: lint
 lint:

@@ -19,11 +19,6 @@ export type ContextHelperSet = {
     contextHelpers: GHAContextHelpers;
 }
 
-import { Octokit } from '@octokit/core';
-export type OctokitInterface = typeof Octokit & import("@octokit/core/dist-types/types").Constructor<import("@octokit/plugin-rest-endpoint-methods/dist-types/types").Api & {
-    paginate: import("@octokit/plugin-paginate-rest").PaginateInterface;
-}>;
-
 export interface GHAContextHelpers {
     getContext: GHAContextGetter;
     getCommitSha: () => string;
