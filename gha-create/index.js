@@ -4,7 +4,7 @@ const fs = require('fs'); // @TODO move to 'imports from' when moved to TS !
 const core = require('@actions/core'); // @TODO move to 'imports from' when moved to TS !
 const io = require('@actions/io'); // @TODO move to 'imports from' when moved to TS !
 
-const SDK = require('./node-sdk'); // @TODO move to 'imports from' when moved to TS !
+const SDK = require('node-sdk'); // @TODO move to 'imports from' when moved to TS !
 
 async function run() {
     const trustedPathHelper = SDK.path.trustedPathHelpers();

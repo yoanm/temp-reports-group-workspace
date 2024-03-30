@@ -1,6 +1,6 @@
 const core = require('@actions/core'); // @TODO move to 'imports from' when moved to TS !
 
-import {getContext, triggeringWorkflow} from '../node-gha-helpers';
+import {getContext, triggeringWorkflow} from 'node-gha-helpers';
 
 async function run() {
     const context = core.getBooleanInput('from-triggering-workflow', {required: true}) ? triggeringWorkflow.getContext() : getContext();

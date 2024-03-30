@@ -11,7 +11,7 @@ package:
 
 .PHONY: lint
 lint:
-	./node_modules/.bin/eslint .
+	npx eslint .
 
 .PHONY: test
 test:

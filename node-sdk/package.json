@@ -1,7 +1,7 @@
 {
   "name": "node-sdk",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.0",
   "author": "yoanm",
   "main": "index.js",
   "license": "AGPL-3.0-only",
@@ -14,5 +14,6 @@
   "devDependencies": {
     "@vercel/ncc": "^0.38.1",
     "eslint": "^8.57.0"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }

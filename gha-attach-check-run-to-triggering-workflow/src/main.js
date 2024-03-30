@@ -1,7 +1,7 @@
 const {getOctokit, context: ghContext} = require('@actions/github'); // @TODO move to 'imports from' when moved to TS !
 const core = require('@actions/core');
 
-const ghaHelpers = require('../node-gha-helpers');
+const ghaHelpers = require('node-gha-helpers');
 
 const formatMarkdownUrl = (title, link) => '<a href="' + link + '" target="blank">' + title + '</a>';
 
