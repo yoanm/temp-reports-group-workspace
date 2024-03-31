@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "es2015", // Must be the NCC target !
+    "module": "es2015", // Must be the NCC target !
+    "moduleResolution": "node", // In order to avoid issue with NCC !
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "outDir": "./ts-dist",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "newLine": "lf",
+    "paths": {
+      "node-sdk": ["../node-sdk/dist"],
+    }
+  },
+  "exclude": ["./dist", "./ts-dist", "./tests"]
+}

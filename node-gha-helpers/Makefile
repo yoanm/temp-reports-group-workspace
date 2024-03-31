@@ -3,11 +3,13 @@ install:
 	yarn install
 
 .PHONY: build
-build: install package
-
-.PHONY: package
-package:
+build: compile
 	@echo "Nothing to build"
+
+.PHONY: compile
+compile:
+	@echo "Compile TS sources ..."
+	@rm -rf dist/* && tsc -p ./tsconfig.json
 
 .PHONY: lint
 lint:

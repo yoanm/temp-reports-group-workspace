@@ -1,9 +1,14 @@
 {
-  "name": "reports-group",
   "private": true,
-  "description": "Reports group yarn workspace",
-  "author": "yoanm",
   "license": "AGPL-3.0-only",
+  "scripts": {
+    "pkg:configure": "cd $INIT_CWD && make configure",
+    "pkg:build": "cd $INIT_CWD && make build",
+    "pkg:package": "cd $INIT_CWD && make package",
+    "pkg:lint": "cd $INIT_CWD && make lint",
+    "pkg:test": "cd $INIT_CWD && make test",
+    "pkg:compile": "cd $INIT_CWD && make compile"
+  },
   "workspaces": [
     "gha-attach-check-run-to-triggering-workflow",
     "gha-codacy-uploader",
@@ -16,8 +21,8 @@
     "node-sdk"
   ],
   "devDependencies": {
-    "@vercel/ncc": "^0.38.1",
-    "eslint": "^8.57.0"
+    "@yarnpkg/types": "^4.0.0",
+    "typescript": "^5.4.3"
   },
   "packageManager": "yarn@4.1.1"
 }

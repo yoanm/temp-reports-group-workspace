@@ -3,11 +3,14 @@ install:
 	yarn install
 
 .PHONY: build
-build: install package
+build:
+	@echo "Building package ..."
+	@rm -rf dist/* && npx ncc build src/index.ts --target es2015 --minify --source-map --license LICENSE --out dist
 
-.PHONY: package
-package:
-	rm -Rf dist/* && npx ncc build index.js --minify --source-map --license LICENSE --out dist
+.PHONY: compile
+compile:
+	@echo "Compile TS sources ..."
+	@rm -rf ts-dist/* && tsc -p ./tsconfig.json
 
 .PHONY: lint
 lint:
