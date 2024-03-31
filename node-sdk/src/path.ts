@@ -5,7 +5,7 @@ import path from 'path';
 const {GITHUB_WORKSPACE} = process.env;
 
 import type {Metadata} from "./interfaces";
-const {METADATA_FILENAME} = require('./constants');
+import {METADATA_FILENAME} from './constants';
 
 /**
  * Ensure a trailing separator exists. Easier to re-use for end-user

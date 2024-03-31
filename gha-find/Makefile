@@ -4,11 +4,14 @@ install:
 
 .PHONY: build
 build:
-	rm -rf dist/* && npx ncc build src/index.ts --target es2015 --minify --source-map --license LICENSE --out dist
+	@echo "Building package ..."
+	@rm -rf dist/* && npx ncc build src/index.ts --target es2015 --minify --source-map --license LICENSE --out dist
 
 .PHONY: compile
 compile:
-	rm -rf dist/* && tsc -p ./tsconfig.json
+	@echo "Compile TS sources ..."
+	@rm -rf ts-dist/* && tsc -p ./tsconfig.json
+
 .PHONY: lint
 lint:
 	npx eslint  index.js

@@ -1,38 +1,67 @@
-#PKG_LIST := node-gha-helpers node-sdk gha-find gha-load-metadata gha-create gha-codecov-uploader gha-codacy-uploader gha-attach-check-run-to-triggering-workflow gha-fetch-workflow-metadata
-#TARGETS := configure build package lint test compile
+define RUN_FOR_ALL_PKGS
+	echo "Executing \033[32m$(1)\033[0m for \033[34mall\033[0m packages"; \
+	yarn workspaces foreach --worktree --topological-dev --exclude . $(2) -- $(1)
+endef
 
-#define FOR_EACH_PKG
-#    @for PKG in $(PKG_LIST); do \
-#	    echo ">>>>>> $(1) \"$$PKG\" Package >>>>>>"; \
-#	    $(MAKE) -C $$PKG $(1) || exit 1; \
-#	    echo "<<<<<<\n"; \
-#    done
-#endef
+define RUN_FOR_SPECIFICS_PKG
+	echo "Executing \033[32m$(1)\033[0m for \033[34m$(2)\033[0m packages"; \
+	yarn workspaces foreach -R --topological-dev --from '{$(2),}' $(3) -- $(1)
+endef
 
-.PHONY: configure
-configure:
-	yarn workspaces foreach --worktree --topological-dev --exclude . run pkg:configure
+define RUN_FROM
+	@if [ -z "$(2)" ]; then $(call RUN_FOR_ALL_PKGS,$(1),$(3)); else $(call RUN_FOR_SPECIFICS_PKG,$(1),$2,$(3)); fi;
+endef
 
-.PHONY: build
-build:
-	yarn workspaces foreach --worktree --topological-dev --exclude . run pkg:build
+##—— 📚 Help ——————————————————————————————————————————————————————————————
+.PHONY: help
+help: ## ❓ Display this help
+	@grep -E '(^[a-zA-Z0-9_-]+:.*?##.*$$)|(^##)' $(MAKEFILE_LIST) \
+		| awk 'BEGIN {FS = ":.*?## "}{printf "\033[32m%-30s\033[0m %s\n", $$1, $$2}' \
+		| sed -e 's/\[32m##——————————/[33m           /'  \
+		| sed -e 's/\[32m##——/[33m ——/' \
+		| sed -e 's/\[32m####/[34m                                 /' \
+		| sed -e 's/\[32m###/[36m                                 /' \
+		| sed -e 's/\[32m##\?/[35m /'  \
+		| sed -e 's/\[32m##/[33m/'
 
 .PHONY: install
 install:
 	yarn constraints --fix && yarn install
 
-.PHONY: package
-package:
-	yarn workspaces foreach --worktree --topological-dev --exclude . run pkg:package
-
-.PHONY: lint
-lint:
-	yarn workspaces foreach --worktree --topological-dev --exclude . run pkg:lint
-
-.PHONY: test
-test:
-	yarn workspaces foreach --worktree --topological-dev --exclude . run pkg:test
+##—— 🔧 Documentation —————————————————————————————————————————————————————
+.PHONY: build
+build: ## 🏗️Build packages
+#### Use from="..." to specify a package, e.g. from=pkg1 or from='{pkg1,pkg2}' (quotes are required !)
+build: from ?=
+#### Use opts="..." to specify additional options, e.g. opts="--include [...] --exclude [...]"
+build: opts ?= "--parallel"
+build:
+	$(call RUN_FROM,run pkg:build,$(from),$(opts))
 
 .PHONY: compile
+compile: ## 🗜️Compile packages (TS mostly)
+#### Use from="..." to specify a package, e.g. from=pkg1 or from='{pkg1,pkg2}' (quotes are required !)
+compile: from ?=
+#### Use opts="..." to specify additional options, e.g. opts="--include [...] --exclude [...]"
+compile: opts ?= "--parallel"
 compile:
-	yarn workspaces foreach --worktree --topological-dev --exclude . run pkg:compile
+	$(call RUN_FROM,run pkg:compile,$(from),$(opts))
+
+##—— 🧪️Tests —————————————————————————————————————————————————————————————
+.PHONY: test
+test: ## 🏃 Test packages
+#### Use from="..." to specify a package, e.g. from=pkg1 or from='{pkg1,pkg2}' (quotes are required !)
+test: from ?=
+#### Use opts="..." to specify additional options, e.g. opts="--include [...] --exclude [...]"
+test: opts ?= "--parallel"
+test:
+	$(call RUN_FROM,run pkg:test,$(from),$(opts))
+
+.PHONY: lint
+lint: ## 🔎 Lint packages
+#### Use from="..." to specify a package, e.g. from=pkg1 or from='{pkg1,pkg2}' (quotes are required !)
+lint: from ?=
+#### Use opts="..." to specify additional options, e.g. opts="--include [...] --exclude [...]"
+lint: opts ?= "--parallel"
+lint:
+	$(call RUN_FROM,run pkg:lint,$(from),$(opts))

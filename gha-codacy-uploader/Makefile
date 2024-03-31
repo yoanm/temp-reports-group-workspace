@@ -11,7 +11,7 @@ build:
 
 .PHONY: compile
 compile:
-	rm -rf dist/* && tsc -p ./tsconfig.json
+	@echo "Nothing to compile !"
 
 .PHONY: lint
 lint:

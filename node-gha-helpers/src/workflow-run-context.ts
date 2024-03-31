@@ -1,7 +1,7 @@
 import {context as ghaContext} from '@actions/github';
 const {payload: ghaEvent} = ghaContext;
 
-const {isPullRequestEvent} = require('./workflow-run-event');
+import {isPullRequestEvent} from './workflow-run-event';
 import {buildWorkflowRunUrl} from "./common";
 import type {GHAContext} from "./interfaces";
 

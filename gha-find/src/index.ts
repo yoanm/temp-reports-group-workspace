@@ -1,4 +1,4 @@
-const {statSync} = require('fs'); 
+import {statSync} from 'fs';
 import path from 'path'; 
 
 import * as core from '@actions/core'; 
@@ -89,9 +89,7 @@ async function run() {
         return;
     }
     // "Grouping" phase
-    /** @type {Metadata[][]} */
-    let trustedMetadataListOfList = [trustedMetadataList];
-    /** @type {MergeField[]} */
+    let trustedMetadataListOfList: Metadata[][] = [trustedMetadataList];
     const groupByItemList: MergeField[] = GROUP_BY_INPUT.length > 0 ? GROUP_BY_INPUT.split(',') as MergeField[] : [];
     if (groupByItemList.length > 0) {
         core.info('Merge metadata list');

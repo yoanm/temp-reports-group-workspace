@@ -16,5 +16,5 @@
     "skipLibCheck": true,
     "newLine": "lf"
   },
-  "exclude": ["./dist", "./tests"]
+  "exclude": ["./dist", "./ts-dist", "./tests"]
 }
