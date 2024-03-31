@@ -44,7 +44,7 @@ on:
         description: Override the job name
         type: string
         required: false
-        default: "Upload reports to codacy"
+        default: "Upload every reports to Codacy"
       follow-symbolic-links:
         description: Indicates whether to follow symbolic links when resolving groups path
         type: boolean
