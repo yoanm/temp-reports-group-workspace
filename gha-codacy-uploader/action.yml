@@ -85,7 +85,7 @@ runs:
 
     - name: Upload to codacy
       id: upload
-      uses: yoanm/codacy-coverage-reporter-action@feature/force-commit-sha
+      uses: yoanm/codacy-coverage-reporter-action@master
       with:
         project-token: ${{ inputs.project-token }}
         coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}

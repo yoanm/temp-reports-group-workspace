@@ -26,7 +26,7 @@ on:
           
           In case input is filled, `force-git-branch` input (as well as `force-gh-pr` in case of `pull_request` event)
           should be filled too in order to keep consitency between values !
-        required: false
+        required: true
         type: string
       force-git-branch:
         description: |
@@ -35,7 +35,7 @@ on:
           
           In case input is filled, `force-git-commit` input (as well as `force-gh-pr` in case of `pull_request` event)
           should be filled too in order to keep consitency between values !
-        required: false
+        required: true
         type: string
       force-gh-pr:
         description: |
@@ -44,7 +44,7 @@ on:
           
           In case input is filled, `force-git-commit` and `force-git-branch` inputs should be filled too in order
           to keep consitency between values !
-        required: false
+        required: true
         type: string
       ## <<< Override Git/GitHub info linked to the uploaded reports <<<
       ## >>> Override underlying uploader inputs >>>
@@ -155,9 +155,9 @@ jobs:
 
       # Codecov uploader requires the repository to be there !
       # @TODO see if by manually filling sha/branch/pr etc, it's still required !
-      - name: Checkout Repository
-        if: ${{ steps.find-groups.outputs.count == 1 }}
-        uses: actions/checkout@v4
+#      - name: Checkout Repository
+#        if: ${{ steps.find-groups.outputs.count == 1 }}
+#        uses: actions/checkout@v4
 # @TODO refactor (paths is not group paths, but report parts here !)
 #      - name: Fast-lane single group upload
 #        if: ${{ steps.find-groups.outputs.count == 1 }}
@@ -189,8 +189,8 @@ jobs:
 
       # Codecov uploader requires the repository to be there !
       # @TODO see if by manually filling sha/branch/pr etc, it's still required !
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
 
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
