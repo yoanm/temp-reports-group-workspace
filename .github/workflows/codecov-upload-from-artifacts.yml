@@ -89,7 +89,7 @@ jobs:
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
         if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: ${{ inputs.override-job-name }}
@@ -125,7 +125,7 @@ jobs:
 
       - name: Find groups
         id: find-groups
-        uses: yoanm/temp-reports-group-workspace/gha-find
+        uses: yoanm/temp-reports-group-workspace/gha-find@improve
         with:
           path: job-artifacts
           format: glob-string
@@ -154,7 +154,7 @@ jobs:
         run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
 
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
         if: ${{ 'workflow_run' == github.event_name }}
 
       - name: Download artifacts
@@ -173,7 +173,7 @@ jobs:
 
       - name: Upload reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader
+        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@improve
         with:
           path: ${{ matrix.path }}
           token: ${{ secrets.TOKEN }}
