@@ -20,30 +20,15 @@ on:
         default: "${{ github.run_id }}"
       ## >>> Override Git/GitHub info linked to the uploaded reports >>>
       force-git-commit:
-        description: |
-          Force the commit SHA linked to the uploaded reports.
-          Mostly useful for specific cases (e.g. `workflow_run` workflow).
-          
-          In case input is filled, `force-git-branch` input (as well as `force-gh-pr` in case of `pull_request` event)
-          should be filled too in order to keep consitency between values !
-        required: false
+        description: Force the commit SHA linked to the uploaded reports, avoiding the need to checkout the underlying code
+        required: true
         type: string
       force-git-branch:
-        description: |
-          Force the branch linked to the uploaded reports.
-          Mostly useful for specific cases (e.g. `workflow_run` workflow).
-          
-          In case input is filled, `force-git-commit` input (as well as `force-gh-pr` in case of `pull_request` event)
-          should be filled too in order to keep consitency between values !
-        required: false
+        description: Force the branch linked to the uploaded reports, avoiding the need to checkout the underlying code
+        required: true
         type: string
       force-gh-pr:
-        description: |
-          Force the PR linked to the uploaded reports.
-          Mostly useful for specific cases (e.g. `workflow_run` workflow triggered by a `pull_request` workflow).
-          
-          In case input is filled, `force-git-commit` and `force-git-branch` inputs should be filled too in order
-          to keep consitency between values !
+        description: Force the PR linked to the uploaded reports, avoiding the need to checkout the underlying code
         required: false
         type: string
       ## <<< Override Git/GitHub info linked to the uploaded reports <<<
@@ -153,25 +138,6 @@ jobs:
       - name: DEBUG
         run: echo '${{ toJson(steps.find-groups.outputs) }}'
 
-      # Codecov uploader requires the repository to be there !
-      # @TODO see if by manually filling sha/branch/pr etc, it's still required !
-      - name: Checkout Repository
-        if: ${{ steps.find-groups.outputs.count == 1 }}
-        uses: actions/checkout@v4
-# @TODO refactor (paths is not group paths, but report parts here !)
-#      - name: Fast-lane single group upload
-#        if: ${{ steps.find-groups.outputs.count == 1 }}
-#        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@improve
-#        with:
-#          path: ${{ steps.find-groups.outputs.paths }}
-#          token: ${{ secrets.TOKEN }}
-#          force-git-commit: ${{ inputs.force-git-commit }}
-#          force-git-branch: ${{ inputs.force-git-branch }}
-#          force-gh-pr: ${{ inputs.force-gh-pr }}
-#          force-uploader-build: ${{ inputs.force-uploader-build }}
-#          force-uploader-build-url: ${{ inputs.force-uploader-build-url }}
-#          follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
-
   uploads:
     name: "${{ matrix.artifact }} - ${{ matrix.name }}"
     runs-on: ubuntu-latest
@@ -186,11 +152,6 @@ jobs:
     steps:
       - name: DEBUG matrix
         run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
-
-      # Codecov uploader requires the repository to be there !
-      # @TODO see if by manually filling sha/branch/pr etc, it's still required !
-      - name: Checkout Repository
-        uses: actions/checkout@v4
 
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@improve
