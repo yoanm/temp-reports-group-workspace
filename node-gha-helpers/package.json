@@ -9,13 +9,13 @@
   },
   "devDependencies": {
     "@octokit/core": "^6.1.2",
-    "@octokit/plugin-paginate-rest": "^10.0.0",
-    "@octokit/plugin-rest-endpoint-methods": "^11.0.1",
-    "@octokit/types": "^12.6.0",
+    "@octokit/plugin-paginate-rest": "^11.3.3",
+    "@octokit/plugin-rest-endpoint-methods": "^13.2.4",
+    "@octokit/types": "^13.5.0",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.12.2",
+    "@types/node": "^22.3.0",
     "@vercel/ncc": "^0.38.1",
-    "eslint": "^8.57.0",
+    "eslint": "^9.9.0",
     "typescript": "^5.5.4"
   }
 }
