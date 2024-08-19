@@ -106,7 +106,7 @@ jobs:
 
       - name: Upload all reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@v0
+        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@from-sub-folders
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}

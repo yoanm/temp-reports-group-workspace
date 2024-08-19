@@ -34,7 +34,7 @@ async function run() {
         started_at: !currentJob ? nowDate : currentJob.started_at,
         conclusion: isSuccessfulJobAsOfNow ? undefined : jobStatus,
         completed_at: isSuccessfulJobAsOfNow ? undefined : nowDate,
-        status: (isSuccessfulJobAsOfNow ? 'in_progress' : 'completed') as "queued" | "completed",
+        status: (isSuccessfulJobAsOfNow ? 'in_progress' : 'completed') as "in_progress" | "completed",
         output: {
             title: '🔔 ' + currentWorkflowContext.workflowName,
             summary: '🪢 Check added by ' + summaryRedirectMrkLink,

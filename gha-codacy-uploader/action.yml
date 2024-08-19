@@ -54,9 +54,18 @@ runs:
           core.getInput('path', {required: true});
           core.getInput('project-token', {required: true});
 
+    - name: DEBUG artifacts
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+      run: |
+        ls -ail ${{ env.GITHUB_ACTION_PATH }}
+        ls -ail ${{ env.GITHUB_ACTION_PATH }}/..
+
     - name: Load groups metadata
       id: load-metadata
-      uses: yoanm/temp-reports-group-workspace/gha-load-metadata@v0
+      uses: yoanm/temp-reports-group-workspace/gha-load-metadata@from-sub-folders
+      # Else run JS + include
       with:
         path: ${{ inputs.path }}
         format: string # String in order to concatenate interesting values
