@@ -117,7 +117,7 @@ runs:
         script: |
           core.setFailed('Unable to retrieve any report to upload. Something wrong most likely happened !');
 
-    - name: Upload to codacy
+    - name: Upload to codecov
       id: upload
       uses: codecov/codecov-action@v4
       with:
