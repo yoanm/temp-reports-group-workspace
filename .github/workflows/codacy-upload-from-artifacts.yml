@@ -64,7 +64,7 @@ on:
         value: ${{ jobs.upload.outputs.reports }}
 
 env:
-  CHECK_RUN_PERM: "${{ 'workflow_run' == github.event_name ? 'write' : 'none' }}"
+  CHECK_RUN_PERM: "${{ 'workflow_run' == github.event_name && 'write' || 'none' }}"
 
 jobs:
   upload:
