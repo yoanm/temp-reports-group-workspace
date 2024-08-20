@@ -63,6 +63,9 @@ on:
         description: TODO
         value: ${{ jobs.upload.outputs.reports }}
 
+env:
+  CHECK_RUN_PERM: "${{ 'workflow_run' == github.event_name ? 'write' : 'none' }}"
+
 jobs:
   upload:
     name: ${{ inputs.override-job-name }}
@@ -72,7 +75,7 @@ jobs:
       reports: ${{ steps.upload.outputs.reports }}
     permissions:
       contents: read
-      checks: "${{ 'workflow_run' == github.event_name ? 'write' : 'none' }}"
+      checks: ${{ env.CHECK_RUN_PERM }}
     steps:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
