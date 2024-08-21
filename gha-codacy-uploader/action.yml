@@ -87,7 +87,7 @@ runs:
       with:
         script: |
           core.info('Build output');
-          const {REPORTS, PATHS, GROUPS, DATA} = process.env;
+          const {REPORTS, PATHS, GROUPS} = process.env;
           const path = require('path');
           const pathList = PATHS.split(',').map(p => path.dirname(p));
           const reports = REPORTS.split(',').map(report => pathList.reduce((acc, p) => acc.replace(p, ''), report).substring(1)).join('\n');
