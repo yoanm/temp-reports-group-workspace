@@ -42,6 +42,7 @@ async function run() {
         paths: SDK.array.mergeStringList(pathList).join(isGlobString ? '\n' : GLUE_STRING_INPUT),
         'group-count': pathList.length,
         'report-count': reportCount,
+        json: JSON.stringify(trustedMetadataList),
     });
 }
 

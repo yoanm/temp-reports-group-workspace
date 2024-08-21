@@ -81,6 +81,7 @@ runs:
         GROUPS: ${{ steps.load-metadata.outputs.names }}
         PATHS: ${{ steps.load-metadata.outputs.paths }}
         REPORTS: ${{ steps.load-metadata.outputs.reports }}
+        JSON: ${{ steps.load-metadata.outputs.json }}
       with:
         script: |
           core.info('Build output');

@@ -42,6 +42,9 @@ outputs:
   report-count:
     description: |
       Number of report retrieved
+  json:
+    description: |
+      Metadata list as JSON encoded array
 
 runs:
   using: 'node20'
