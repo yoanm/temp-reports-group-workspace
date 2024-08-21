@@ -102,22 +102,24 @@ async function run() {
     });
 
     const outputs = await core.group(
-        'Build action outputs',
+        'Build action outputs and summary',
         async () => {
-            // Be sure to validate any path returned to the end-user !
-            const res: Record<string, string> = {};
+            SDK.outputs.bindFrom({
+                path: trustedGroupDirectory,
+                reports: trustedMetadata.reports.join('\n'),
+                files: trustedReportsMap.map(v => v.source).join('\n'),
+            });
 
-            core.info("Build 'path' output");
-            res.path = trustedGroupDirectory;
-            core.info("Build 'reports' output");
-            res.reports = trustedMetadata.reports.join('\n');
-            core.info("Build 'files' output");
-            res.files = trustedReportsMap.map(v => v.source).join('\n');
-
-            return res;
+            await core.summary
+                .addHeading(trustedMetadata.name)
+                .addRaw('*Format*: ' + trustedMetadata.format)
+                .addRaw('*Flags*: ' + trustedMetadata.flags.join('\n'))
+                .addRaw('*Reports*')
+                .addList(trustedReportsMap.map(v => v.source + ' => ' + v.dest))
+                .write()
+            ;
         }
     );
-    SDK.outputs.bindFrom(outputs);
 }
 
 run();
