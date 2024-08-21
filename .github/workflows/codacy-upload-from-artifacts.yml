@@ -137,7 +137,7 @@ jobs:
                 ...decodedData.map(info => [
                   path.basename(path.dirname(info.path)),
                   info.name,
-                  info.reports.map(r => path.basename(r)).join(('<br/>'))
+                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>'
                 ])
               ])
               .write()
