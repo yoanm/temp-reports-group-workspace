@@ -40,11 +40,6 @@ on:
         type: string
         required: false
       ## <<< Override underlying uploader inputs <<<
-      override-job-name:
-        description: Override the job name
-        type: string
-        required: false
-        default: "Upload every reports to Codacy"
       follow-symbolic-links:
         description: Indicates whether to follow symbolic links when resolving groups path
         type: boolean
@@ -65,7 +60,7 @@ on:
 
 jobs:
   upload:
-    name: ${{ inputs.override-job-name }}
+    name: Upload
     runs-on: ubuntu-latest
     outputs:
       groups: ${{ steps.upload.outputs.groups }}
@@ -77,8 +72,6 @@ jobs:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
         if: ${{ 'workflow_run' == github.event_name }}
-        with:
-          name: ${{ inputs.override-job-name }}
 
       - name: Validate inputs
         uses: actions/github-script@v7
