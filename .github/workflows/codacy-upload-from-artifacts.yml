@@ -126,22 +126,19 @@ jobs:
           DATA: ${{ steps.upload.outputs.metadata }}
         with:
           script: |
-            const {DATA} = process.env;
             const path = require('path');
-            const decodedData = JSON.parse(DATA);
+            const decodedData = JSON.parse(process.env.DATA);
             console.log('DEBUG');
             console.log(decodedData);
             await core.summary
-              .addHeading('Codacy upload')
+              .addHeading('Uploaded reports')
               .addTable([
-                [{data: 'Artifact', header: true}, {data: 'Group', header: true}, {data: 'Reports', header: true}],
-                ...decodedData.map(info => {
-                  const artifactPath = path.dirname(info.path);
-                  const rootPath = path.dirname(artifactPath);
-                  console.log('DEBUG');
-                  console.log([artifactPath, rootPath, info.reports]);
-                  return [path.basename(artifactPath), info.name, info.reports.map(r => path.relative(rootPath, r)).join(('<br/>'))];
-                })
+                [{data: '📦 Artifact', header: true}, {data: '🧰 Group', header: true}, {data: '📝 Reports', header: true}],
+                ...decodedData.map(info => [
+                  path.basename(path.dirname(info.path)),
+                  info.name,
+                  info.reports.map(r => path.basename(r)).join(('<br/>'))
+                ])
               ])
               .write()
             ;

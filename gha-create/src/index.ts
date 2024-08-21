@@ -109,7 +109,7 @@ async function run() {
                 reports: trustedMetadata.reports.join('\n'),
                 files: trustedReportsMap.map(v => v.source).join('\n'),
             });
-
+            /*
             await core.summary
                 .addHeading('🧰 ' + trustedMetadata.name + ' report group')
                 .addTable([
@@ -122,6 +122,7 @@ async function run() {
                 )
                 .write()
             ;
+            */
         }
     );
 }
