@@ -129,6 +129,8 @@ jobs:
             const {DATA} = process.env;
             const path = require('path');
             const decodedData = JSON.parse(DATA);
+            console.log('DEBUG');
+            console.log(decodedData);
             await core.summary
               .addHeading('Codacy upload')
               .addTable([
@@ -137,7 +139,7 @@ jobs:
                   const artifactPath = path.dirname(info.path);
                   const rootPath = path.dirname(artifactPath);
                   console.log('DEBUG');
-                  console.log([artifactPath, rootPath, info.reports])
+                  console.log([artifactPath, rootPath, info.reports]);
                   return [path.basename(artifactPath), info.name, info.reports.map(r => path.relative(r, rootPath)).join(('<br/>'))];
                 })
               ])
