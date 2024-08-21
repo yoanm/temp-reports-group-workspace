@@ -103,13 +103,14 @@ async function run() {
     // Apply `matrix-mode`
     if (ENABLE_MATRIX_MODE) {
         core.info('Apply matrix mode');
+        let cnt = 0;
 
         SDK.outputs.bindFrom({
             ...outputs,
             // @ts-expect-error: undefined is not an allowed property value
             list: undefined,
             matrix: JSON.stringify({
-                include: outputs.list.map(md => Array.isArray(md.name) ? JSON.stringify(md) : md)
+                include: outputs.list.map(md => Array.isArray(md.name) ? JSON.stringify({...md, job: ++cnt}) : {...md, job: ++cnt})
             }),
         });
         core.debug('Matrix mode applied');
