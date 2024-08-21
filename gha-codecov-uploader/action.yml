@@ -58,15 +58,18 @@ outputs:
   groups:
     description: TODO
     value: ${{ steps.build-outputs.outputs.groups }}
-  name:
+  names:
     description: TODO
-    value: ${{ steps.build-outputs.outputs.name }}
+    value: ${{ steps.build-outputs.outputs.names }}
   reports:
     description: TODO
     value: ${{ steps.build-outputs.outputs.reports }}
   flags:
     description: TODO
     value: ${{ steps.build-outputs.outputs.flags }}
+  metadata:
+    description: TODO
+    value: ${{ steps.load-metadata.outputs.json }}
 
 runs:
   using: "composite"
@@ -93,38 +96,14 @@ runs:
         glue-string: ',' # Ensure glue string as it's the expected one by the uploader
         follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
-    - name: Build uploader option
-      id: build-uploader-options
-      uses: actions/github-script@v7
-      env:
-        METADATA: ${{ steps.load-metadata.outputs.metadata }}
-      with:
-        script: |
-          core.info('Build uploader options');
-          const {METADATA} = process.env;
-          
-          const metadata = JSON.parse(METADATA);
-          core.setOutput('name', metadata.name);
-          core.setOutput('files', metadata.reports); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
-          if (metadata.flags.length > 0) {
-            core.setOutput('flags', metadata.flags);
-          }
-
-    - name: Ensure at least one report to upload
-      if: ${{ '' == steps.build-uploader-options.outputs.files }}
-      uses: actions/github-script@v7
-      with:
-        script: |
-          core.setFailed('Unable to retrieve any report to upload. Something wrong most likely happened !');
-
-    - name: Upload to codacy
+    - name: Upload to codecov
       id: upload
       uses: codecov/codecov-action@v4
       with:
         token: ${{ inputs.token }}
-        name: ${{ steps.build-uploader-options.outputs.name }}
-        files: ${{ steps.build-uploader-options.outputs.files }}
-        flags: ${{ steps.build-uploader-options.outputs.flags }}
+        name: ${{ steps.load-metadata.outputs.names }}
+        files: ${{ steps.load-metadata.outputs.reports }}
+        flags: ${{ steps.load-metadata.outputs.flags }}
         override_branch: ${{ inputs.force-git-branch }}
         override_commit: ${{ inputs.force-git-commit }}
         override_pr: ${{ inputs.force-gh-pr }}
@@ -140,17 +119,14 @@ runs:
       id: build-outputs
       uses: actions/github-script@v7
       env:
-        METADATA: ${{ steps.load-metadata.outputs.metadata }}
-        REPORT_NAME: ${{ steps.build-uploader-options.outputs.name }}
-        REPORT_FILES: ${{ steps.build-uploader-options.outputs.files }}
-        REPORT_FLAGS: ${{ steps.build-uploader-options.outputs.flags }}
+        GROUPS: ${{ steps.load-metadata.outputs.names }}
+        REPORTS: ${{ steps.load-metadata.outputs.reports }}
+        FLAGS: ${{ steps.load-metadata.outputs.flags }}
       with:
         script: |
           core.info('Build output');
-          const {REPORT_NAME, REPORT_FILES, REPORT_FLAGS, METADATA} = process.env;
-          
-          const metadata = JSON.parse(METADATA);
-          core.setOutput('groups', metadata.path.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
-          core.setOutput('name', REPORT_NAME);
-          core.setOutput('reports', REPORT_FILES.split(',').join('\n')); // Trusted path, see `build-uploader-options` step
-          core.setOutput('flags', undefined !== REPORT_FLAGS ? REPORT_FLAGS.split(',').join('\n') : '');
+          const {GROUPS, REPORTS, FLAGS} = process.env;
+
+          core.setOutput('groups', GROUPS.split(',').join('\n'));
+          core.setOutput('reports', REPORTS.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
+          core.setOutput('flags', undefined !== FLAGS ? FLAGS.split(',').join('\n') : '');

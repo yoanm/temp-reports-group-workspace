@@ -102,22 +102,29 @@ async function run() {
     });
 
     const outputs = await core.group(
-        'Build action outputs',
+        'Build action outputs and summary',
         async () => {
-            // Be sure to validate any path returned to the end-user !
-            const res: Record<string, string> = {};
-
-            core.info("Build 'path' output");
-            res.path = trustedPathHelper.trust(trustedGroupDirectory);
-            core.info("Build 'reports' output");
-            res.reports = trustedMetadata.reports.join('\n');
-            core.info("Build 'files' output");
-            res.files = trustedReportsMap.map(v => v.source).join('\n');
-
-            return res;
+            SDK.outputs.bindFrom({
+                path: trustedGroupDirectory,
+                reports: trustedMetadata.reports.join('\n'),
+                files: trustedReportsMap.map(v => v.source).join('\n'),
+            });
+            /*
+            await core.summary
+                .addHeading('🧰 ' + trustedMetadata.name + ' report group')
+                .addTable([
+                    [{data: 'Source', header: true}, {data: 'Target', header: true}],
+                    ...trustedReportsMap.map(v => [v.source, v.filename])
+                ])
+                .addDetails(
+                    'Details',
+                    'Format 🗜:️ <b>' + trustedMetadata.format + '</b><br/>Flags 🚩: <b>' + trustedMetadata.flags.join('</b> / <b>') + '</b>'
+                )
+                .write()
+            ;
+            */
         }
     );
-    SDK.outputs.bindFrom(outputs);
 }
 
 run();

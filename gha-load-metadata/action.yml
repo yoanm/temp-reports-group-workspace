@@ -21,12 +21,30 @@ inputs:
     default: 'false'
 
 outputs:
-  # @TODO Re-add individual properties since toJson() doesn't seem available everywhere :|
-  # @TODO Add following properties: found?, count
-  metadata:
+  names:
     description: |
-      A JSON encoded group metadata object, if string format is used or in case of group directory has been provided. 
-      Else an JSON encoded array of group metadata object
+      List of report name joined by provided `glue-string`.
+  formats:
+    description: |
+      List of report format joined by provided `glue-string`
+  reports:
+    description: |
+      List of report path joined by provided `glue-string` (or a glob compatible multiline list in case `glob-string` format is used)
+  flags:
+    description: |
+      List of report flags joined by provided `glue-string`
+  paths:
+    description: |
+      List of group directory path in case of multiple groups joined by provided `glue-string` (or a glob compatible multiline list in case `glob-string` format is used)
+  group-count:
+    description: |
+      Number of groups retrieved
+  report-count:
+    description: |
+      Number of report retrieved
+  json:
+    description: |
+      Metadata list as JSON encoded array
 
 runs:
   using: 'node20'

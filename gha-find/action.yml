@@ -16,7 +16,7 @@ description: |
       contents: read
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if $\{{ !inputs.with-check-run }}
     steps:
-      # ... fetch data (checkout, artefacts, etc)
+      # ... fetch data (checkout, artifacts, etc)
 
       - name: Find reports groups
         id: find-groups
@@ -29,7 +29,7 @@ description: |
             format
             flags
           matrix-mode: true
-          #artifacts-mode: true # Uncomment if `build/reports-groups` is the directoy used to fecth artefacts
+          #artifacts-mode: true # Uncomment if `build/reports-groups` is the directoy used to fecth artifacts
           #follow-symbolic-links: false # default value
   upload:
     name: Upload groups
@@ -41,7 +41,7 @@ description: |
       contents: read
       checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if `!inputs.with-check-run`
     steps:
-      # ... fetch data (checkout, artefacts, etc)
+      # ... fetch data (checkout, artifacts, etc)
 
       - name: Find reports groups
         id: find-groups
@@ -52,7 +52,7 @@ description: |
           glue-string: ','
           group-by: format,flags
           matrix-mode: true
-          #artifacts-mode: true # Uncomment if `build/reports-groups` is the directoy used to fecth artefacts
+          #artifacts-mode: true # Uncomment if `build/reports-groups` is the directoy used to fecth artifacts
           #follow-symbolic-links: false # default value
   ```
   
@@ -223,11 +223,11 @@ outputs:
     description: Glob compatible list of all reports group directory path (=multiline list of paths)
   artifacts:
     description: |
-      Glob compatible multiline list of artefact name.
+      Glob compatible multiline list of artifact name.
       Only filled if `artifacts-mode` is enabled !
   artifacts-dwl-pattern:
     description: |
-      Glob compatible list of artefact name, compatible with with `actions/download-artifact`
+      Glob compatible list of artifact name, compatible with with `actions/download-artifact`
       Only filled if `artifacts-mode` is enabled !
   list:
     description: |

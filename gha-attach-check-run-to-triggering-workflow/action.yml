@@ -9,16 +9,16 @@ inputs:
     description: Github Authentication token used to create the check through GitHub API
     required: false
     default: "${{ github.token }}"
-  job-status:
-    description: Job check status
-    required: false
-    default: "${{ job.status }}"
   fails-on-triggering-workflow-failure:
     description: |
       If `true` and triggering workflow is not sucessfull (error, cancellation, etc), add the check and throw an error
       in order to stop ongoing job.
     required: false
     default: 'false'
+  job-status:
+    description: Job check status
+    required: false
+    default: "${{ job.status }}"
 
 outputs:
   check-run-id:

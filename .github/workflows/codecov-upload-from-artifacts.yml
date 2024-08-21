@@ -58,41 +58,36 @@ on:
         required: false
         type: boolean
         default: false
-      override-job-name:
-        description: Override the job name
-        required: false
-        type: string
-        default: "Upload reports grouped by format/flags to Codecov"
 
     secrets:
       TOKEN:
         required: true
 
     outputs:
-      groups-count:
+      report-count:
         description: TODO
-        value: ${{ jobs.prepare.outputs.groups-count }}
-      group-paths:
+        value: ${{ jobs.prepare.outputs.report-count }}
+      report-paths:
         description: TODO
-        value: ${{ jobs.prepare.outputs.group-paths }}
+        value: ${{ jobs.prepare.outputs.report-paths }}
 
 jobs:
   prepare:
-    name: ${{ inputs.override-job-name }}
+    name: Group reports by format & flag
     runs-on: ubuntu-latest
     outputs:
-      groups-count: ${{ steps.find-groups.outputs.count }}
       matrix: ${{ steps.find-groups.outputs.matrix }}
-      group-paths: ${{ steps.find-groups.outputs.paths }}
+      report-count: ${{ steps.find-groups.outputs.count }}
+      report-paths: ${{ steps.find-groups.outputs.paths }}
     permissions:
       contents: read
-      checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
+      checks: write
     steps:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
-        if: ${{ 'workflow_run' == github.event_name }}
+        #if: ${{ 'workflow_run' == github.event_name }}
         with:
-          name: ${{ inputs.override-job-name }}
+          name: Codedov - Group reports
 
       - name: Validate inputs
         uses: actions/github-script@v7
@@ -118,11 +113,6 @@ jobs:
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
           run-id: ${{ inputs.run-id }} # Required in case workflow is executed from another run (e.g. `workflow_run`)
 
-      - name: DEBUG artifacts
-        run: |
-          ls -ail job-artifacts/*
-          ls -ail job-artifacts/*/*
-
       - name: Find groups
         id: find-groups
         uses: yoanm/temp-reports-group-workspace/gha-find@v0
@@ -135,11 +125,8 @@ jobs:
           matrix-mode: true
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
-      - name: DEBUG
-        run: echo '${{ toJson(steps.find-groups.outputs) }}'
-
   uploads:
-    name: "${{ matrix.artifact }} - ${{ matrix.name }}"
+    name: "Upload #${{ matrix.job }}"
     runs-on: ubuntu-latest
     needs: [ prepare ]
     strategy:
@@ -148,14 +135,13 @@ jobs:
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     permissions:
       contents: read
-      checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
+      checks: write
     steps:
-      - name: DEBUG matrix
-        run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
-
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
-        if: ${{ 'workflow_run' == github.event_name }}
+        #if: ${{ 'workflow_run' == github.event_name }}
+        with:
+          name: "Codedov - Upload #${{ matrix.job }}"
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -165,11 +151,6 @@ jobs:
           path: job-artifacts
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
           run-id: ${{ inputs.run-id }} # Required in case workflow is executed from another run (e.g. `workflow_run`)
-
-      - name: DEBUG artifacts
-        run: |
-          ls -ail job-artifacts/*
-          ls -ail job-artifacts/*/*
 
       - name: Upload reports
         id: upload
@@ -183,3 +164,31 @@ jobs:
           force-uploader-build: ${{ inputs.force-uploader-build }}
           force-uploader-build-url: ${{ inputs.force-uploader-build-url }}
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
+
+      - name: Build summary
+        uses: actions/github-script@v7
+        continue-on-error: true
+        env:
+          DATA: ${{ steps.upload.outputs.metadata }}
+        with:
+          script: |
+            const path = require('path');
+            const decodedData = JSON.parse(process.env.DATA);
+            await core.summary
+              .addHeading('Uploaded reports')
+              .addTable([
+                [
+                  {data: '📦 Artifact', header: true},
+                  {data: '🧰 Group', header: true},
+                  {data: '📝 Reports', header: true}
+                ],
+                ...decodedData.map(info => [
+                  path.basename(path.dirname(info.path)),
+                  info.name,
+                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>',
+                ])
+              ])
+              .addRaw('🚩 Flags').addBreak()
+              .addList(decodedData[0].flags)
+              .write()
+            ;

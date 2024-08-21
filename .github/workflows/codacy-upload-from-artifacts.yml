@@ -40,11 +40,6 @@ on:
         type: string
         required: false
       ## <<< Override underlying uploader inputs <<<
-      override-job-name:
-        description: Override the job name
-        type: string
-        required: false
-        default: "Upload every reports to Codacy"
       follow-symbolic-links:
         description: Indicates whether to follow symbolic links when resolving groups path
         type: boolean
@@ -65,20 +60,20 @@ on:
 
 jobs:
   upload:
-    name: ${{ inputs.override-job-name }}
+    name: Upload
     runs-on: ubuntu-latest
     outputs:
       groups: ${{ steps.upload.outputs.groups }}
       reports: ${{ steps.upload.outputs.reports }}
     permissions:
       contents: read
-      checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if ${{ !inputs.with-check-run }}
+      checks: write
     steps:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
-        if: ${{ 'workflow_run' == github.event_name }}
+        #if: ${{ 'workflow_run' == github.event_name }}
         with:
-          name: ${{ inputs.override-job-name }}
+          name: Codacy upload
 
       - name: Validate inputs
         uses: actions/github-script@v7
@@ -116,6 +111,28 @@ jobs:
           force-uploader-cli-version: ${{ inputs.force-uploader-cli-version }}
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
-      - name: DEBUG
-        run: |
-          echo 'outputs='"'"'${{ toJson(steps.upload.outputs) }}'"'"
+      - name: Build summary
+        uses: actions/github-script@v7
+        continue-on-error: true
+        env:
+          DATA: ${{ steps.upload.outputs.metadata }}
+        with:
+          script: |
+            const path = require('path');
+            const decodedData = JSON.parse(process.env.DATA);
+            await core.summary
+              .addHeading('Uploaded reports')
+              .addTable([
+                [
+                  {data: '📦 Artifact', header: true},
+                  {data: '🧰 Group', header: true},
+                  {data: '📝 Reports', header: true}
+                ],
+                ...decodedData.map(info => [
+                  path.basename(path.dirname(info.path)),
+                  info.name,
+                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>'
+                ])
+              ])
+              .write()
+            ;
