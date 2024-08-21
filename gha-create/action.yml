@@ -35,7 +35,7 @@ outputs:
   reports:
     description: Multiline List of created reports for the group
   files:
-    description: Multiline list of reports attached to the group. 
+    description: Multiline list of original report paths.
       May be different than provided `files` in case of glob pattern !
 
 runs:

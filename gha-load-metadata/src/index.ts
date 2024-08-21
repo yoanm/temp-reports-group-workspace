@@ -24,9 +24,9 @@ async function run() {
 
     core.info('Build action outputs');
     const isGlobString = 'glob-string' === FORMAT_INPUT;
-    const pathList = SDK.array.itemsPropertyList(trustedMetadataList, 'path');
-    const flagList = SDK.array.itemsPropertyList(trustedMetadataList, 'flags');
-    const reportList = SDK.array.itemsPropertyList(trustedMetadataList, 'reports');
+    const pathList: string[] = SDK.array.itemsPropertyList(trustedMetadataList, 'path');
+    const flagList: string[][] = SDK.array.itemsPropertyList(trustedMetadataList, 'flags');
+    const reportList: string[][] = SDK.array.itemsPropertyList(trustedMetadataList, 'reports');
     const reportCount = reportList.reduce((acc, list) => acc + list.length, 0);
     if (0 === pathList.length) {
         core.setFailed('Unable to retrieve any group. Something wrong most likely happened !');
