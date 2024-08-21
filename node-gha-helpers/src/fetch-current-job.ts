@@ -15,7 +15,7 @@ export async function fetchCurrentJob(octokit: GHOctokit): Promise<WorkflowJob|u
     }
     if (candidateList.length === 0) {
         core.info('Unable to retrieve the current job !');
-        core.info('DEBUG TMP ' + JSON.stringify(jobList));
+        core.info('List: ' + JSON.stringify(jobList));
         return undefined;
     }
     if (candidateList.length > 1) {

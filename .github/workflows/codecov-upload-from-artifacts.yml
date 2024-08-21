@@ -84,8 +84,8 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
-        #if: ${{ 'workflow_run' == github.event_name }}
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
+        if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: Codedov - Group reports
 
@@ -113,14 +113,9 @@ jobs:
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
           run-id: ${{ inputs.run-id }} # Required in case workflow is executed from another run (e.g. `workflow_run`)
 
-      - name: DEBUG artifacts
-        run: |
-          ls -ail job-artifacts/*
-          ls -ail job-artifacts/*/*
-
       - name: Find groups
         id: find-groups
-        uses: yoanm/temp-reports-group-workspace/gha-find@from-sub-folders
+        uses: yoanm/temp-reports-group-workspace/gha-find@v0
         with:
           path: job-artifacts
           format: glob-string
@@ -129,9 +124,6 @@ jobs:
           group-by: format,flags
           matrix-mode: true
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
-
-      - name: DEBUG
-        run: echo '${{ toJson(steps.find-groups.outputs) }}'
 
   uploads:
     name: "Upload #${{ matrix.job }}"
@@ -146,13 +138,10 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
-        #if: ${{ 'workflow_run' == github.event_name }}
+        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
+        if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: "Codedov - Upload #${{ matrix.job }}"
-
-      - name: DEBUG matrix
-        run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -163,14 +152,9 @@ jobs:
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
           run-id: ${{ inputs.run-id }} # Required in case workflow is executed from another run (e.g. `workflow_run`)
 
-      - name: DEBUG artifacts
-        run: |
-          ls -ail job-artifacts/*
-          ls -ail job-artifacts/*/*
-
       - name: Upload reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@from-sub-folders
+        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@v0
         with:
           path: ${{ matrix.path }}
           token: ${{ secrets.TOKEN }}
@@ -180,9 +164,6 @@ jobs:
           force-uploader-build: ${{ inputs.force-uploader-build }}
           force-uploader-build-url: ${{ inputs.force-uploader-build-url }}
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
-
-      - name: DEBUG
-        run: echo '${{ toJson(steps.upload.outputs) }}'
 
       - name: Build summary
         uses: actions/github-script@v7
