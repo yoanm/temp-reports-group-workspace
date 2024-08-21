@@ -128,12 +128,15 @@ jobs:
             await core.summary
               .addHeading('Uploaded reports')
               .addTable([
-                [{data: '📦 Artifact', header: true}, {data: '🧰 Group', header: true}, {data: '📝 Reports', header: true}, {data: '🚩 Flags', header: true}],
+                [
+                  {data: '📦 Artifact', header: true},
+                  {data: '🧰 Group', header: true},
+                  {data: '📝 Reports', header: true}
+                ],
                 ...decodedData.map(info => [
                   path.basename(path.dirname(info.path)),
                   info.name,
-                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>',
-                  '<ul><li>' + info.flags.join('</li><li>') + '</li></ul>'
+                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>'
                 ])
               ])
               .write()
