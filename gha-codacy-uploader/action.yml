@@ -37,6 +37,9 @@ outputs:
   reports:
     description: TODO
     value: ${{ steps.build-outputs.outputs.reports }}
+  metadata:
+    description: TODO
+    value: ${{ toJson(steps.load-metadata.outputs) }}
 
 runs:
   using: "composite"
@@ -81,11 +84,10 @@ runs:
         GROUPS: ${{ steps.load-metadata.outputs.names }}
         PATHS: ${{ steps.load-metadata.outputs.paths }}
         REPORTS: ${{ steps.load-metadata.outputs.reports }}
-        JSON: ${{ steps.load-metadata.outputs.json }}
       with:
         script: |
           core.info('Build output');
-          const {REPORTS, PATHS, GROUPS} = process.env;
+          const {REPORTS, PATHS, GROUPS, JSON} = process.env;
           const path = require('path');
           const pathList = PATHS.split(',').map(p => path.dirname(p));
           console.log('DEBUG')
