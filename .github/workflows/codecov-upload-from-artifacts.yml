@@ -69,7 +69,7 @@ on:
         required: true
 
     outputs:
-      groups-count:
+      group-count:
         description: TODO
         value: ${{ jobs.prepare.outputs.groups-count }}
       group-paths:
@@ -150,12 +150,12 @@ jobs:
       contents: read
       checks: write
     steps:
-      - name: DEBUG matrix
-        run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
-
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
         if: ${{ 'workflow_run' == github.event_name }}
+
+      - name: DEBUG matrix
+        run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
 
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -183,3 +183,6 @@ jobs:
           force-uploader-build: ${{ inputs.force-uploader-build }}
           force-uploader-build-url: ${{ inputs.force-uploader-build-url }}
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
+
+      - name: DEBUG
+        run: echo '${{ toJson(steps.upload.outputs) }}'

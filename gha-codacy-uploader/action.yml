@@ -79,7 +79,7 @@ runs:
       uses: actions/github-script@v7
       env:
         PATHS: ${{ steps.load-metadata.outputs.paths }}
-        REPORTS: ${{ steps.build-uploader-options.outputs.reports }}
+        REPORTS: ${{ steps.load-metadata.outputs.reports }}
       with:
         script: |
           core.info('Build output');
