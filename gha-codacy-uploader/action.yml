@@ -63,32 +63,12 @@ runs:
         glue-string: ',' # Ensure glue string as it's the expected one by the uploader
         follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
-    - name: Build uploader option
-      id: build-uploader-options
-      uses: actions/github-script@v7
-      env:
-        METADATA: ${{ steps.load-metadata.outputs.metadata }}
-      with:
-        script: |
-          core.info('Build uploader options');
-          const {METADATA} = process.env;
-          
-          const metadata = JSON.parse(METADATA);
-          core.setOutput('coverage-reports', metadata.reports); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
-
-    - name: Ensure at least one report to upload
-      if: ${{ '' == steps.build-uploader-options.outputs.coverage-reports }}
-      uses: actions/github-script@v7
-      with:
-        script: |
-          core.setFailed('Unable to retrieve any report to upload. Something wrong most likely happened !');
-
     - name: Upload to codacy
       id: upload
       uses: yoanm/codacy-coverage-reporter-action@master
       with:
         project-token: ${{ inputs.project-token }}
-        coverage-reports: ${{ steps.build-uploader-options.outputs.coverage-reports }}
+        coverage-reports: ${{ steps.load-metadata.outputs.reports }}
         language: ${{ inputs.force-uploader-language }}
         force-coverage-parser: ${{ inputs.force-uploader-coverage-parser }}
         force-commit-sha: ${{ inputs.force-git-commit }}
@@ -98,13 +78,12 @@ runs:
       id: build-outputs
       uses: actions/github-script@v7
       env:
-        METADATA: ${{ steps.load-metadata.outputs.metadata }}
-        REPORTS: ${{ steps.build-uploader-options.outputs.coverage-reports }}
+        PATHS: ${{ steps.load-metadata.outputs.paths }}
+        REPORTS: ${{ steps.build-uploader-options.outputs.reports }}
       with:
         script: |
           core.info('Build output');
-          const {REPORTS, METADATA} = process.env;
-
-          const metadata = JSON.parse(METADATA);
-          core.setOutput('groups', metadata.path.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
-          core.setOutput('reports', REPORTS.split(',').join('\n')); // Trusted path, see `build-uploader-options` step
+          const {REPORTS, PATHS} = process.env;
+          
+          core.setOutput('groups', PATHS.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
+          core.setOutput('reports', REPORTS.split(',').join('\n')); // // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)

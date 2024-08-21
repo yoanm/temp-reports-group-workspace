@@ -24,15 +24,24 @@ async function run() {
 
     core.info('Build action outputs');
     const isGlobString = 'glob-string' === FORMAT_INPUT;
+    const pathList = SDK.array.itemsPropertyList(trustedMetadataList, 'path');
+    const flagList = SDK.array.itemsPropertyList(trustedMetadataList, 'flags');
+    const reportList = SDK.array.itemsPropertyList(trustedMetadataList, 'reports');
+    const reportCount = reportList.reduce((acc, list) => acc + list.length, 0);
+    if (0 === pathList.length) {
+        core.setFailed('Unable to retrieve any group. Something wrong most likely happened !');
+    } else if (0 === reportCount) {
+        core.setFailed('Unable to retrieve any report to upload. Something wrong most likely happened !');
+    }
 
     SDK.outputs.bindFrom({
-        metadata: JSON.stringify({
-            name: SDK.array.mergeStringList(SDK.array.itemsPropertyList(trustedMetadataList, 'name')).join(GLUE_STRING_INPUT),
-            format: SDK.array.mergeStringList(SDK.array.itemsPropertyList(trustedMetadataList, 'format')).join(GLUE_STRING_INPUT),
-            reports: SDK.array.mergeListOfList(SDK.array.itemsPropertyList(trustedMetadataList, 'reports')).join(isGlobString ? '\n' : GLUE_STRING_INPUT),
-            flags: SDK.array.mergeListOfList(SDK.array.itemsPropertyList(trustedMetadataList, 'flags')).join(GLUE_STRING_INPUT),
-            path: SDK.array.mergeStringList(SDK.array.itemsPropertyList(trustedMetadataList, 'path')).join(isGlobString ? '\n' : GLUE_STRING_INPUT),
-        }),
+        names: SDK.array.mergeStringList(SDK.array.itemsPropertyList(trustedMetadataList, 'name')).join(GLUE_STRING_INPUT),
+        formats: SDK.array.mergeStringList(SDK.array.itemsPropertyList(trustedMetadataList, 'format')).join(GLUE_STRING_INPUT),
+        reports: SDK.array.mergeListOfList(SDK.array.itemsPropertyList(trustedMetadataList, 'reports')).join(isGlobString ? '\n' : GLUE_STRING_INPUT),
+        flags: (flagList.length > 0) ? SDK.array.mergeListOfList(flagList).join(GLUE_STRING_INPUT) : null,
+        paths: SDK.array.mergeStringList(pathList).join(isGlobString ? '\n' : GLUE_STRING_INPUT),
+        'group-count': pathList.length,
+        'report-count': reportCount,
     });
 }
 
