@@ -186,3 +186,24 @@ jobs:
 
       - name: DEBUG
         run: echo '${{ toJson(steps.upload.outputs) }}'
+
+      - name: Build summary
+        uses: actions/github-script@v7
+        env:
+          DATA: ${{ steps.upload.outputs.metadata }}
+        with:
+          script: |
+            const path = require('path');
+            const decodedData = JSON.parse(process.env.DATA);
+            await core.summary
+              .addHeading('Uploaded reports')
+              .addTable([
+                [{data: '📦 Artifact', header: true}, {data: '🧰 Group', header: true}, {data: '📝 Reports', header: true}],
+                ...decodedData.map(info => [
+                  path.basename(path.dirname(info.path)),
+                  info.name,
+                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>'
+                ])
+              ])
+              .write()
+            ;
