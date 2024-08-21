@@ -58,7 +58,7 @@ outputs:
   groups:
     description: TODO
     value: ${{ steps.build-outputs.outputs.groups }}
-  name:
+  names:
     description: TODO
     value: ${{ steps.build-outputs.outputs.names }}
   reports:
@@ -125,8 +125,8 @@ runs:
       with:
         script: |
           core.info('Build output');
-          const {NAMES, REPORTS, FLAGS} = process.env;
+          const {GROUPS, REPORTS, FLAGS} = process.env;
 
-          core.setOutput('names', NAMES.split(',').join('\n'));
+          core.setOutput('groups', GROUPS.split(',').join('\n'));
           core.setOutput('reports', REPORTS.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
           core.setOutput('flags', undefined !== FLAGS ? FLAGS.split(',').join('\n') : '');

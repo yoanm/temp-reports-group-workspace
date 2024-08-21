@@ -189,6 +189,7 @@ jobs:
 
       - name: Build summary
         uses: actions/github-script@v7
+        continue-on-error: true
         env:
           DATA: ${{ steps.upload.outputs.metadata }}
         with:
