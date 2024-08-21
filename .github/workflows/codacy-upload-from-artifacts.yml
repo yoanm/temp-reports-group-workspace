@@ -119,3 +119,27 @@ jobs:
       - name: DEBUG
         run: |
           echo 'outputs='"'"'${{ toJson(steps.upload.outputs) }}'"'"
+
+      - name: Build summary
+        uses: actions/github-script@v7
+        env:
+          DATA: ${{ steps.upload.outputs.json }}
+        with:
+          script: |
+            const {DATA} = process.env;
+            const path = require('path');
+            const decodedData = JSON.parse(DATA);
+            await core.summary
+              .addHeading('Codacy upload')
+              .addTable([
+                [{data: 'Artifact', header: true}, {data: 'Group', header: true}, {data: 'Reports', header: true}],
+                ...decodedData.map(info => {
+                  const artifactPath = path.dirname(info.path);
+                  const rootPath = path.dirname(artifactPath);
+                  console.log('DEBUG');
+                  console.log([artifactPath, rootPath, info.reports])
+                  return [path.basename(artifactPath), info.name, info.reports.map(r => path.relative(r, rootPath)).join(('<br/>'))];
+                })
+              ])
+              .write()
+            ;
