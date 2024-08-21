@@ -89,7 +89,7 @@ runs:
           const pathList = PATHS.split(',').map(p => path.dirname(p));
           console.log('DEBUG')
           console.log(pathList);
-          const reports = REPORTS.split(',').map(report => pathList.reduce((acc, p) => report.replace(p, ''), report)).join('\n');
+          const reports = REPORTS.split(',').map(report => pathList.reduce((acc, p) => acc.replace(p, ''), report)).join('\n');
           
           core.setOutput('groups', GROUPS.split(',').join('\n'));
           core.setOutput('reports', reports); // // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
