@@ -108,7 +108,7 @@ async function run() {
             const res: Record<string, string> = {};
 
             core.info("Build 'path' output");
-            res.path = trustedPathHelper.trust(trustedGroupDirectory);
+            res.path = trustedGroupDirectory;
             core.info("Build 'reports' output");
             res.reports = trustedMetadata.reports.join('\n');
             core.info("Build 'files' output");

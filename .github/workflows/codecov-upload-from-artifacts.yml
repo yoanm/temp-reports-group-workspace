@@ -69,21 +69,21 @@ on:
         required: true
 
     outputs:
-      group-count:
+      report-count:
         description: TODO
-        value: ${{ jobs.prepare.outputs.groups-count }}
-      group-paths:
+        value: ${{ jobs.prepare.outputs.report-count }}
+      report-paths:
         description: TODO
-        value: ${{ jobs.prepare.outputs.group-paths }}
+        value: ${{ jobs.prepare.outputs.report-paths }}
 
 jobs:
   prepare:
     name: ${{ inputs.override-job-name }}
     runs-on: ubuntu-latest
     outputs:
-      groups-count: ${{ steps.find-groups.outputs.count }}
       matrix: ${{ steps.find-groups.outputs.matrix }}
-      group-paths: ${{ steps.find-groups.outputs.paths }}
+      report-count: ${{ steps.find-groups.outputs.count }}
+      report-paths: ${{ steps.find-groups.outputs.paths }}
     permissions:
       contents: read
       checks: write

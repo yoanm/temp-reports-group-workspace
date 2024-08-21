@@ -128,4 +128,4 @@ runs:
           core.setOutput('groups', PATHS.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
           core.setOutput('names', NAMES);
           core.setOutput('reports', FILES.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
-          core.setOutput('flags', undefined !== FLAGS ? REPORT_FLAGS.split(',').join('\n') : '');
+          core.setOutput('flags', undefined !== FLAGS ? FLAGS.split(',').join('\n') : '');
