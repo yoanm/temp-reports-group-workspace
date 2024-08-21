@@ -71,7 +71,9 @@ jobs:
     steps:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
-        if: ${{ 'workflow_run' == github.event_name }}
+        #if: ${{ 'workflow_run' == github.event_name }}
+        with:
+          name: Codacy upload
 
       - name: Validate inputs
         uses: actions/github-script@v7

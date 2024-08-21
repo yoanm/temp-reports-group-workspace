@@ -85,7 +85,9 @@ jobs:
     steps:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
-        if: ${{ 'workflow_run' == github.event_name }}
+        #if: ${{ 'workflow_run' == github.event_name }}
+        with:
+          name: Codedov - Group reports
 
       - name: Validate inputs
         uses: actions/github-script@v7
@@ -145,7 +147,9 @@ jobs:
     steps:
       - name: 'Check run ○'
         uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@from-sub-folders
-        if: ${{ 'workflow_run' == github.event_name }}
+        #if: ${{ 'workflow_run' == github.event_name }}
+        with:
+          name: "Codedov - Upload ${{ matrix.job }}/${{ strategy.job-total }}"
 
       - name: DEBUG matrix
         run: echo 'matrix='"'"'${{ toJson(matrix) }}'"'"
