@@ -111,10 +111,10 @@ async function run() {
             });
 
             await core.summary
-                .addHeading(trustedMetadata.name)
-                .addRaw('*Format*: ' + trustedMetadata.format)
-                .addRaw('*Flags*: ' + trustedMetadata.flags.join('\n'))
-                .addRaw('*Reports*')
+                .addHeading(trustedMetadata.name + ' report group')
+                .addRaw('<b>Format</b>: ' + trustedMetadata.format, true)
+                .addRaw('*Flags*: ' + trustedMetadata.flags.join(','), true)
+                .addRaw('*Reports*:', true)
                 .addList(trustedReportsMap.map(v => v.source + ' => ' + v.dest))
                 .write()
             ;
