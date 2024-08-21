@@ -112,10 +112,13 @@ async function run() {
 
             await core.summary
                 .addHeading(trustedMetadata.name + ' report group')
-                .addRaw('<b>Format</b>: ' + trustedMetadata.format, true)
-                .addRaw('*Flags*: ' + trustedMetadata.flags.join(','), true)
-                .addRaw('*Reports*:', true)
-                .addList(trustedReportsMap.map(v => v.source + ' => ' + v.dest))
+                .addRaw('🗜️ <b>' + trustedMetadata.format + '</b>').addBreak()
+                .addRaw('🚩 <b>' + trustedMetadata.flags.join(',') + '</b>').addBreak()
+                .addRaw('📝').addBreak()
+                .addTable([
+                    [{data: 'Source', header: true}, {data: 'Target', header: true}],
+                    ...trustedReportsMap.map(v => [v.source, v.dest])
+                ])
                 .write()
             ;
         }
