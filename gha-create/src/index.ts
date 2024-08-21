@@ -111,14 +111,15 @@ async function run() {
             });
 
             await core.summary
-                .addHeading(trustedMetadata.name + ' report group')
-                .addRaw('🗜️ <b>' + trustedMetadata.format + '</b>').addBreak()
-                .addRaw('🚩 <b>' + trustedMetadata.flags.join(',') + '</b>').addBreak()
-                .addRaw('📝').addBreak()
+                .addHeading('🧰 ' + trustedMetadata.name + ' report group')
                 .addTable([
                     [{data: 'Source', header: true}, {data: 'Target', header: true}],
                     ...trustedReportsMap.map(v => [v.source, v.dest])
                 ])
+                .addDetails(
+                    'Details',
+                    'Format 🗜:️ <b>' + trustedMetadata.format + '</b><br/>Flags 🚩: <b>' + trustedMetadata.flags.join(' / ') + '</b>'
+                )
                 .write()
             ;
         }
