@@ -37,7 +37,7 @@ outputs:
   reports:
     description: TODO
     value: ${{ steps.build-outputs.outputs.reports }}
-  metadata:
+  json:
     description: TODO
     value: ${{ toJson(steps.load-metadata.outputs) }}
 
