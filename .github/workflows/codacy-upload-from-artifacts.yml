@@ -140,7 +140,7 @@ jobs:
                   const rootPath = path.dirname(artifactPath);
                   console.log('DEBUG');
                   console.log([artifactPath, rootPath, info.reports]);
-                  return [path.basename(artifactPath), info.name, info.reports.map(r => path.relative(r, rootPath)).join(('<br/>'))];
+                  return [path.basename(artifactPath), info.name, info.reports.map(r => path.relative(rootPath, r)).join(('<br/>'))];
                 })
               ])
               .write()
