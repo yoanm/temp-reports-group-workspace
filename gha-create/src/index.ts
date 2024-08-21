@@ -114,11 +114,11 @@ async function run() {
                 .addHeading('🧰 ' + trustedMetadata.name + ' report group')
                 .addTable([
                     [{data: 'Source', header: true}, {data: 'Target', header: true}],
-                    ...trustedReportsMap.map(v => [v.source, v.dest])
+                    ...trustedReportsMap.map(v => [v.source, v.filename])
                 ])
                 .addDetails(
                     'Details',
-                    'Format 🗜:️ <b>' + trustedMetadata.format + '</b><br/>Flags 🚩: <b>' + trustedMetadata.flags.join(' / ') + '</b>'
+                    'Format 🗜:️ <b>' + trustedMetadata.format + '</b><br/>Flags 🚩: <b>' + trustedMetadata.flags.join('</b> / <b>') + '</b>'
                 )
                 .write()
             ;

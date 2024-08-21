@@ -78,12 +78,18 @@ runs:
       id: build-outputs
       uses: actions/github-script@v7
       env:
+        GROUPS: ${{ steps.load-metadata.outputs.names }}
         PATHS: ${{ steps.load-metadata.outputs.paths }}
         REPORTS: ${{ steps.load-metadata.outputs.reports }}
       with:
         script: |
           core.info('Build output');
-          const {REPORTS, PATHS} = process.env;
+          const {REPORTS, PATHS, GROUPS} = process.env;
+          const path = require('path');
+          const pathList = PATHS.split(',').map(p => path.dirname(p));
+          console.log('DEBUG')
+          console.log(pathList);
+          const reports = REPORTS.split(',').map(report => pathList.reduce((acc, p) => report.replace(p, ''), report)).join('\n');
           
-          core.setOutput('groups', PATHS.split(',').join('\n')); // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
-          core.setOutput('reports', REPORTS.split(',').join('\n')); // // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
+          core.setOutput('groups', GROUPS.split(',').join('\n'));
+          core.setOutput('reports', reports); // // Trusted path as it comes from trusted metadata (=from `reports-group/load-metadata`)
