@@ -70,7 +70,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/attach-check-run-to-triggering-workflow@feature/improve
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: Codacy upload
@@ -101,7 +101,7 @@ jobs:
 
       - name: Upload all reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/codacy@v0
+        uses: yoanm/temp-reports-group-workspace/codacy@feature/improve
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}

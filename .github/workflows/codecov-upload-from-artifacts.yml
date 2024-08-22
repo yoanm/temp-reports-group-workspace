@@ -84,7 +84,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/attach-check-run-to-triggering-workflow@feature/improve
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: Codedov - Group reports
@@ -115,7 +115,7 @@ jobs:
 
       - name: Find groups
         id: find-groups
-        uses: yoanm/temp-reports-group-workspace/find-groups@v0
+        uses: yoanm/temp-reports-group-workspace/find-groups@feature/improve
         with:
           path: job-artifacts
           format: glob-string
@@ -138,7 +138,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/attach-check-run-to-triggering-workflow@feature/improve
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: "Codedov - Upload #${{ matrix.job }}"
@@ -154,7 +154,7 @@ jobs:
 
       - name: Upload reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/codecov@v0
+        uses: yoanm/temp-reports-group-workspace/codecov@feature/improve
         with:
           path: ${{ matrix.path }}
           token: ${{ secrets.TOKEN }}
