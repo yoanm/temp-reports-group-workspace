@@ -65,3 +65,13 @@ lint: from ?=
 lint: opts ?= "--parallel"
 lint:
 	$(call RUN_FROM,run pkg:lint,$(from),$(opts))
+
+.PHONY: set-tag
+set-tag: ## 🏷️ Replace inner action tag by the provided one
+#### Use tag="..." to specify the tag, e.g. tag=v1
+set-tag: tag ?= v0
+set-tag:
+	@find . \( -name 'action.yml' -or -path './.github/workflows/*.yml' \) \
+		-exec sed -i .bkp -E 's/(uses: +yoanm\/temp-reports-group-workspace\/[^@]+)@.+/\1@$(tag)/g' {} \;
+	@find . \( -name 'action.yml.bkp' -or -path './.github/workflows/*.yml.bkp' \) \
+		-exec rm {} \;
