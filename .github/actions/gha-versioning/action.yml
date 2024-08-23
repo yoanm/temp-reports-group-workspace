@@ -73,12 +73,9 @@ runs:
         GIT_NAME: ${{ inputs.git-name }}
       run: |
         # Create & push tags
-        # /!\ Update the original tag at the end so it will be the latest tag generated, 
-        # otherwise, github releases won't take it automatically as latest tag to automatically generate the changelog !
-        git config --global user.email "$GIT_EMAIL"
-        git config --global user.name "$GIT_NAME"
+        
+        git config --global user.email "$GIT_EMAIL" # Required when -m is used !
+        git config --global user.name "$GIT_NAME" # Required when -m is used !
         git tag -f $MAJOR_TAG -m "Linked to $FULL_TAG tag" $FULL_TAG && \
           git tag -f $MINOR_TAG -m "Linked to $FULL_TAG tag" $FULL_TAG &&  \
-          git push origin --force $MINOR_TAG $MAJOR_TAG 
-        # $FULL_TAG
-        # sleep 1 && git tag -f $FULL_TAG -m "See also $MAJOR_TAG or $MINOR_TAG tags" && \
+          git push origin --force $MINOR_TAG $MAJOR_TAG
