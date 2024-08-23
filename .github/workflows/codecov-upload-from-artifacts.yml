@@ -1,4 +1,4 @@
-# To store on same repo as reports-group/gha-codecov-uploader action if doable
+# To store on same repo as reports-group/codecov action if doable
 name: 'Codecov report groups upload'
 on:
   workflow_call:
@@ -73,21 +73,19 @@ on:
 
 jobs:
   prepare:
-    name: Group reports by format & flag
+    name: Merge groups by flag
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.find-groups.outputs.matrix }}
-      report-count: ${{ steps.find-groups.outputs.count }}
-      report-paths: ${{ steps.find-groups.outputs.paths }}
+      matrix: ${{ steps.create-matrix.outputs.matrix }}
     permissions:
       contents: read
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@v0
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
-          name: Codedov - Group reports
+          name: Codedov - Merge groups
 
       - name: Validate inputs
         uses: actions/github-script@v7
@@ -115,15 +113,24 @@ jobs:
 
       - name: Find groups
         id: find-groups
-        uses: yoanm/temp-reports-group-workspace/gha-find@v0
+        uses: yoanm/temp-reports-group-workspace/find-groups@v0
         with:
           path: job-artifacts
-          format: glob-string
-          glue-string: ','
-          artifacts-mode: true
-          group-by: format,flags
-          matrix-mode: true
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
+
+      - name: Merge groups
+        id: merge-groups
+        uses: yoanm/temp-reports-group-workspace/merge-groups@v0
+        with:
+          paths: ${{ steps.find-groups.outputs.paths }}
+          group-by: flags
+
+      - name: Create matrix
+        id: create-matrix
+        uses: yoanm/temp-reports-group-workspace/utils/matrix-with-artifacts@v0
+        with:
+          json-paths-list: ${{ steps.merge-groups.outputs.list }}
+          from-artifact-directory: job-artifacts
 
   uploads:
     name: "Upload #${{ matrix.job }}"
@@ -138,7 +145,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@v0
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: "Codedov - Upload #${{ matrix.job }}"
@@ -146,7 +153,6 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          name: ${{ inputs.artifact }}
           pattern: ${{ matrix.artifacts-dwl-pattern }}
           path: job-artifacts
           github-token: ${{ github.token }} # Required in order to use `run-id` parameter !
@@ -154,9 +160,9 @@ jobs:
 
       - name: Upload reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/gha-codecov-uploader@v0
+        uses: yoanm/temp-reports-group-workspace/uploaders/codecov@v0
         with:
-          path: ${{ matrix.path }}
+          path: ${{ matrix.paths }}
           token: ${{ secrets.TOKEN }}
           force-git-commit: ${{ inputs.force-git-commit }}
           force-git-branch: ${{ inputs.force-git-branch }}
@@ -170,10 +176,12 @@ jobs:
         continue-on-error: true
         env:
           DATA: ${{ steps.upload.outputs.metadata }}
+          FLAGS: ${{ steps.upload.outputs.flags }}
         with:
           script: |
             const path = require('path');
-            const decodedData = JSON.parse(process.env.DATA);
+            const {DATA, FLAGS} = process.env;
+            const decodedData = JSON.parse(DATA);
             await core.summary
               .addHeading('Uploaded reports')
               .addTable([
@@ -188,7 +196,11 @@ jobs:
                   '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>',
                 ])
               ])
-              .addRaw('🚩 Flags').addBreak()
-              .addList(decodedData[0].flags)
-              .write()
             ;
+            if (!!FLAGS) {
+              await core.summary
+                .addRaw('🚩 Flags').addBreak()
+                .addList(FLAGS.split('\n'))
+              ;
+            }
+            await core.summary.write();

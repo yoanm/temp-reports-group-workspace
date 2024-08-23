@@ -1,0 +1,20 @@
+name: find
+description: |
+  TODO
+
+inputs:
+  path:
+    description: A directory path in order to find underlying group directories
+    required: true
+  follow-symbolic-links:
+    description: Indicates whether to follow symbolic links when resolving `path`
+    required: false
+    default: 'false'
+
+outputs:
+  paths:
+    description: Glob compatible list of all reports group directory path (=multiline list of paths)
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

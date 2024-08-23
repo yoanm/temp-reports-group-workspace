@@ -1,0 +1,30 @@
+name: merge
+description: |
+  TODO
+
+inputs:
+  paths:
+    description: |
+      Multiline list of path to group directories.
+      Usually coming from `find-groups` action output !
+    required: true
+  group-by:
+    description: |
+      Comma separated list of field used to group metadata list as a set of list. 
+      Allowed values are: 
+        - `name`: in order to produce a Set where all list contains groups with the same name
+        - `format`: in order to produce a Set where all list contains groups with the same format
+        - `flags`: in order to produce a Set where all list contains groups with the same **full set of flags**
+      
+      Using `flags,format` would produce the smallest set of reports groups to manage regardless of their name and location.
+    required: true
+
+outputs:
+  list:
+    description: JSON encoded array, each item being an array of path to group directories
+  count:
+    description: Number of group generated
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

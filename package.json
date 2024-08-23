@@ -10,15 +10,17 @@
     "pkg:compile": "cd $INIT_CWD && make compile"
   },
   "workspaces": [
-    "gha-attach-check-run-to-triggering-workflow",
-    "gha-codacy-uploader",
-    "gha-codecov-uploader",
-    "gha-create",
-    "gha-fetch-workflow-metadata",
-    "gha-find",
-    "gha-load-metadata",
-    "node-gha-helpers",
-    "node-sdk"
+    "create-group",
+    "find-groups",
+    "merge-groups",
+    "load-metadata",
+    "uploaders/codacy",
+    "uploaders/codecov",
+    "utils/attach-check-run-to-triggering-workflow",
+    "utils/fetch-workflow-metadata",
+    "utils/matrix-with-artifacts",
+    "sdk/gha-sdk",
+    "sdk/node-sdk"
   ],
   "devDependencies": {
     "@yarnpkg/types": "^4.0.0",

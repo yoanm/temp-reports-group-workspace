@@ -1,4 +1,4 @@
-# To store on same repo as reports-group/gha-codacy-uploader action if doable !
+# To store on same repo as reports-group/codacy action if doable !
 name: 'Codacy report groups upload'
 on:
   workflow_call:
@@ -27,15 +27,15 @@ on:
         required: false
       ## <<< Override Git/GitHub info linked to the uploaded reports <<<
       ## >>> Override underlying uploader inputs >>>
-      force-uploader-language: # @TODO see if doable to embed it on group metadata !
+      force-uploader-language:
         description: Force the language linked to the uploaded reports.
         type: string
         required: false
-      force-uploader-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+      force-uploader-coverage-parser:
         description: Force the coverage parser used to parse uploaded reports
         type: string
         required: false
-      force-uploader-cli-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+      force-uploader-cli-version:
         description: Force CLI uploader version
         type: string
         required: false
@@ -70,7 +70,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/gha-attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@v0
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: Codacy upload
@@ -101,7 +101,7 @@ jobs:
 
       - name: Upload all reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/gha-codacy-uploader@v0
+        uses: yoanm/temp-reports-group-workspace/uploaders/codacy@v0
         with:
           path: job-artifacts
           project-token: ${{ secrets.PROJECT_TOKEN }}
