@@ -66,7 +66,7 @@ runs:
         # otherwise, github releases won't take it automatically as latest tag to automatically generate the changelog !
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions"
-        git tag -f -a $MAJOR_TAG -m "Major tag for $FULL_TAG" && \
-          git tag -f -a $MINOR_TAG -m "Minor tag for $FULL_TAG"   && \
-          git tag -f -a $FULL_TAG -m "$FULL_TAG (see also $MAJOR_TAG or $MINOR_TAG)" && \
+        git tag -f $MAJOR_TAG -m "Major tag for $FULL_TAG" && \
+          git tag -f $MINOR_TAG -m "Minor tag for $FULL_TAG"   && \
+          git tag -f $FULL_TAG -m "$FULL_TAG (see also $MAJOR_TAG or $MINOR_TAG)" && \
           git push origin --force $MINOR_TAG $MAJOR_TAG $FULL_TAG;
