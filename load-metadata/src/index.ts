@@ -2,8 +2,6 @@ import * as core from '@actions/core';
 
 import * as SDK from 'node-sdk';  
 
-// @TODO replace json by glob-string as output ?? Same as string format but with glob compatible path list
-// (easier to manage for inner code, while end-user is still able to fall back on string format with a simple split)
 async function run() {
     const trustedPathConverter = SDK.path.trustedPathHelpers();
     /** INPUTS **/

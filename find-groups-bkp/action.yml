@@ -14,7 +14,7 @@ description: |
       groups: $\{{ steps.upload.outputs.paths }} # List of path to reports group directories
     permissions:
       contents: read
-      checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if $\{{ !inputs.with-check-run }}
+      checks: write # For the check run creation ! 
     steps:
       # ... fetch data (checkout, artifacts, etc)
 
@@ -39,7 +39,7 @@ description: |
       groups: $\{{ steps.upload.outputs.paths }} # List of path to reports group directories
     permissions:
       contents: read
-      checks: write # For the check run creation ! @TODO check if doable to use inputs there and set read rather than write if `!inputs.with-check-run`
+      checks: write # For the check run creation ! 
     steps:
       # ... fetch data (checkout, artifacts, etc)
 

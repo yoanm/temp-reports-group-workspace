@@ -78,8 +78,6 @@ function trustFrom(workspacePath: string, zeroDepth: boolean = false): TrustedPa
             return untrustedPath; // Becomes trusted then :)
         },
         /**
-         * @TODO remove that function and always work and return with absolute path ! (first, either update codecov-upload-from-artifacts.yml code or create a find-from-artifacts action to keep it small)
-         *
          * @returns Trusted relative path from workspace directory to `untrustedPath`
          */
         toWorkspaceRelative: (untrustedPath) => {

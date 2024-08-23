@@ -101,7 +101,7 @@ async function run() {
             fs.writeFileSync(trustedFp, JSON.stringify(trustedMetadata));
     });
 
-    const outputs = await core.group(
+    await core.group(
         'Build action outputs and summary',
         async () => {
             SDK.outputs.bindFrom({

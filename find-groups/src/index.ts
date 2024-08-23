@@ -16,7 +16,7 @@ async function run() {
         {followSymbolicLinks: FOLLOW_SYMLINK_INPUT}
     );
     SDK.outputs.bindFrom({
-        paths: pathList.map(p => trustedPathConverter.trust(path.dirname(p))).join('\n'),
+        paths: pathList.map(p => path.dirname(p)).join('\n'),
     });
 }
 

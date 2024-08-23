@@ -9,19 +9,19 @@ inputs:
     description: Codacy project token for the repository
     required: true
   ## >>> Override Git/GitHub info linked to the uploaded reports >>>
-  force-git-commit: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+  force-git-commit:
     description: |
       Override the commit SHA linked to the uploaded reports, rather than relying on uploader auto-discovery.
       Mostly useful for specific cases (e.g. `workflow_run` workflow).
   ## <<< Override Git/GitHub info linked to the uploaded reports <<<
   ## >>> Override underlying uploader inputs >>>
-  force-uploader-language: # @TODO see if doable to embed it on group metadata !
+  force-uploader-language:
     description: Force the language linked to the uploaded reports.
     required: false
-  force-uploader-coverage-parser: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+  force-uploader-coverage-parser:
     description: Force the coverage parser used to parse uploaded reports
     required: false
-  force-uploader-cli-version: # @TODO see if doable to embed it on group metadata ! (extra properties ?)
+  force-uploader-cli-version:
     description: Force CLI uploader version
     required: false
   ## <<< Override underlying uploader inputs <<<
