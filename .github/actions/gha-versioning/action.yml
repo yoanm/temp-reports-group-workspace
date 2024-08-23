@@ -81,3 +81,4 @@ runs:
           git tag -f $MINOR_TAG -m "Linked to $FULL_TAG tag" $FULL_TAG &&  \
           sleep 1 && git tag -f $FULL_TAG -m "See also $MAJOR_TAG or $MINOR_TAG tags" $FULL_TAG && \
           git push origin --force $MINOR_TAG $MAJOR_TAG $FULL_TAG
+          
