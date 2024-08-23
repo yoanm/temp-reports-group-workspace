@@ -15,8 +15,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
 
       - name: Generate vX and vX.Y tags
-        uses: ./.github/actions/gha-versioning
+        uses: yoanm/gha-versioning@master
         with:
           tag: ${{ github.event.release.tag_name }}
