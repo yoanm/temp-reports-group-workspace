@@ -1,0 +1,71 @@
+name: gha-versioning
+description: |
+  Create (or override existing) vX and vX.Y based on the provided tag. Useful to maintain GitHub Action tags up to date.
+branding:
+  icon: tag
+  color: yellow
+
+inputs:
+  tag:
+    description: The full tag used to generate vX and vX.Y tags
+    required: true
+
+outputs:
+  minor-tag:
+    description: Minor tag created (vX.Y)
+    value: ${{ steps.build-outputs.outputs.groups }}
+  major-tag:
+    description: Major tag created (vX)
+    value: ${{ steps.build-outputs.outputs.reports }}
+
+runs:
+  using: "composite"
+  steps:
+    # Even if an input is marked as "required", an empty value (or no value) may be passed !
+    - name: Validate inputs
+      uses: actions/github-script@v7
+      env:
+        INPUT_TAG: ${{ inputs.tag }}
+      with:
+        script: |
+          core.info('Validate inputs');
+          
+          core.getInput('tag', {required: true});
+
+    - name: Generate vX and vX.Y tags
+      id: generate-tags
+      shell: bash
+      env:
+        FULL_TAG: ${{ inputs.tag }}
+      run: |
+        if ! [[ "$FULL_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          echo "::error::Invalid tag format (expected vX.Y.Z) !"
+          exit 1
+        fi;
+  
+        MINOR_TAG=`echo $FULL_TAG | cut -d '.' -f 1-2`;
+        if ! [[ "$MINOR_TAG" =~ ^v[0-9]+\.[0-9]+$ ]]; then
+          echo "::error::Invalid minor tag format (expected vX.Y) !"
+          exit 2
+        fi;
+  
+        MAJOR_TAG=`echo $FULL_TAG | cut -d '.' -f 1`;
+        if ! [[ "$MAJOR_TAG" =~ ^v[0-9]$ ]]; then
+          echo "::error::Invalid major tag format (expected vX) !"
+          exit 3
+        fi;
+        
+        echo "::notice::Minor tag -> $MINOR_TAG"
+        echo "minor=$MINOR_TAG" >> "$GITHUB_OUTPUT"
+        echo "::notice::Major tag -> $MAJOR_TAG"
+        echo "major=$MAJOR_TAG" >> "$GITHUB_OUTPUT"
+
+    - name: Create tags & push
+      shell: bash
+      env:
+        MINOR_TAG: ${{ steps.generate-tags.outputs.minor }}
+        MAJOR_TAG: ${{ steps.generate-tags.outputs.major }}
+      run: |
+        git tag -f $MINOR_TAG && \
+          git tag -f $MAJOR_TAG && \
+          git push origin --force $MINOR_TAG $MAJOR_TAG;
