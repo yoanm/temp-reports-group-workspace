@@ -57,11 +57,14 @@ runs:
 
     - shell: bash
       env:
+        FULL_TAG: ${{ inputs.tag }}
         MINOR_TAG: ${{ steps.generate-tags.outputs.minor }}
         MAJOR_TAG: ${{ steps.generate-tags.outputs.major }}
       run: |
         # Create & push tags
-        
-        git tag -f $MINOR_TAG && \
-          git tag -f $MAJOR_TAG && \
-          git push origin --force $MINOR_TAG $MAJOR_TAG;
+        # /!\ Re-create the original tag at the end so it will be the latest tag generated, 
+        # otherwise, github releases won't take it automatically as latest tag to automatically generate the changelog !
+        git tag -f $MAJOR_TAG && \
+          git tag -f $MINOR_TAG  && \
+          git tag -f $FULL_TAG  && \
+          git push origin --force $MINOR_TAG $MAJOR_TAG $FULL_TAG;
