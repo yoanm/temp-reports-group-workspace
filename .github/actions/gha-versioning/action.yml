@@ -9,6 +9,14 @@ inputs:
   tag:
     description: The full tag used to generate vX and vX.Y tags
     required: true
+  git-email:
+    description: The email for the GIT user creating the tags
+    required: false
+    default: 'github-actions[bot]@users.noreply.github.com'
+  git-email:
+    description: The name for the GIT user creating the tags
+    required: false
+    default: 'github-actions'
 
 outputs:
   minor-tag:
@@ -38,21 +46,22 @@ runs:
         FULL_TAG: ${{ inputs.tag }}
       run: |
         # Generate vX and vX.Y tags
-  
+        echo "Original tag -> $FULL_TAG"
+        
         MINOR_TAG=`echo $FULL_TAG | cut -d '.' -f 1-2`;
+        echo "Minor tag -> $MINOR_TAG"
         if ! [[ "$MINOR_TAG" =~ ^v[0-9]+\.[0-9]+$ ]]; then
           echo "::error::Invalid minor tag format (expected vX.Y) !"
           exit 2
         fi;
-        echo "Minor tag -> $MINOR_TAG"
         echo "minor=$MINOR_TAG" >> "$GITHUB_OUTPUT"
   
         MAJOR_TAG=`echo $FULL_TAG | cut -d '.' -f 1`;
+        echo "Major tag -> $MAJOR_TAG"
         if ! [[ "$MAJOR_TAG" =~ ^v[0-9]$ ]]; then
           echo "::error::Invalid major tag format (expected vX) !"
           exit 3
         fi;
-        echo "Major tag -> $MAJOR_TAG"
         echo "major=$MAJOR_TAG" >> "$GITHUB_OUTPUT"
 
     - shell: bash
@@ -60,12 +69,14 @@ runs:
         FULL_TAG: ${{ inputs.tag }}
         MINOR_TAG: ${{ steps.generate-tags.outputs.minor }}
         MAJOR_TAG: ${{ steps.generate-tags.outputs.major }}
+        GIT_EMAIL: ${{ inputs.git-email }}
+        GIT_NAME: ${{ inputs.git-name }}
       run: |
         # Create & push tags
         # /!\ Update the original tag at the end so it will be the latest tag generated, 
         # otherwise, github releases won't take it automatically as latest tag to automatically generate the changelog !
-        # git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        # git config --global user.name "github-actions"
+        git config --global user.email "$USER_EMAIL"
+        git config --global user.name "$USER_NAME"
         git tag -f $MAJOR_TAG -m "Major tag for $FULL_TAG" && \
           git tag -f $MINOR_TAG -m "Minor tag for $FULL_TAG"   && \
           sleep 1 && git tag -f $FULL_TAG -m "$FULL_TAG (see also $MAJOR_TAG or $MINOR_TAG)" && \
