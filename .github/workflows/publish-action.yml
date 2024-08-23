@@ -12,6 +12,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name }}
+          token: ${{ secrets.PUSH_TAGS_TOKEN }}
 
       - name: Generate vX and vX.Y tags
         shell: bash
@@ -35,8 +36,8 @@ jobs:
             exit 3
           fi;
           
-          echo "::info::Minor tag -> $MINOR_TAG"
-          echo "::info::Major tag -> $MAJOR_TAG"
+          echo "::notice::Minor tag -> $MINOR_TAG"
+          echo "::notice::Major tag -> $MAJOR_TAG"
     
           git tag -f $MINOR_TAG && \
             git tag -f $MAJOR_TAG && \
