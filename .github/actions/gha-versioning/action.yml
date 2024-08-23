@@ -13,10 +13,10 @@ inputs:
 outputs:
   minor-tag:
     description: Minor tag created (vX.Y)
-    value: ${{ steps.build-outputs.outputs.groups }}
+    value: ${{ steps.generate-tags.outputs.minor }}
   major-tag:
     description: Major tag created (vX)
-    value: ${{ steps.build-outputs.outputs.reports }}
+    value: ${{ steps.generate-tags.outputs.major }}
 
 runs:
   using: "composite"
