@@ -22,50 +22,46 @@ runs:
   using: "composite"
   steps:
     # Even if an input is marked as "required", an empty value (or no value) may be passed !
-    - name: Validate inputs
-      uses: actions/github-script@v7
-      env:
-        INPUT_TAG: ${{ inputs.tag }}
-      with:
-        script: |
-          core.info('Validate inputs');
-          
-          core.getInput('tag', {required: true});
-
-    - name: Generate vX and vX.Y tags
-      id: generate-tags
-      shell: bash
+    - shell: bash
       env:
         FULL_TAG: ${{ inputs.tag }}
       run: |
+        # Validate provided tag ...
         if ! [[ "$FULL_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           echo "::error::Invalid tag format (expected vX.Y.Z) !"
           exit 1
         fi;
+
+    - id: generate-tags
+      shell: bash
+      env:
+        FULL_TAG: ${{ inputs.tag }}
+      run: |
+        # Generate vX and vX.Y tags
   
         MINOR_TAG=`echo $FULL_TAG | cut -d '.' -f 1-2`;
         if ! [[ "$MINOR_TAG" =~ ^v[0-9]+\.[0-9]+$ ]]; then
           echo "::error::Invalid minor tag format (expected vX.Y) !"
           exit 2
         fi;
+        echo "Minor tag -> $MINOR_TAG"
+        echo "minor=$MINOR_TAG" >> "$GITHUB_OUTPUT"
   
         MAJOR_TAG=`echo $FULL_TAG | cut -d '.' -f 1`;
         if ! [[ "$MAJOR_TAG" =~ ^v[0-9]$ ]]; then
           echo "::error::Invalid major tag format (expected vX) !"
           exit 3
         fi;
-        
-        echo "::notice::Minor tag -> $MINOR_TAG"
-        echo "minor=$MINOR_TAG" >> "$GITHUB_OUTPUT"
-        echo "::notice::Major tag -> $MAJOR_TAG"
+        echo "Major tag -> $MAJOR_TAG"
         echo "major=$MAJOR_TAG" >> "$GITHUB_OUTPUT"
 
-    - name: Create tags & push
-      shell: bash
+    - shell: bash
       env:
         MINOR_TAG: ${{ steps.generate-tags.outputs.minor }}
         MAJOR_TAG: ${{ steps.generate-tags.outputs.major }}
       run: |
+        # Create & push tags
+        
         git tag -f $MINOR_TAG && \
           git tag -f $MAJOR_TAG && \
           git push origin --force $MINOR_TAG $MAJOR_TAG;
