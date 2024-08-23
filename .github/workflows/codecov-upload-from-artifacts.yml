@@ -123,14 +123,64 @@ jobs:
         uses: yoanm/temp-reports-group-workspace/merge-groups@feature/improve
         with:
           paths: ${{ steps.find-groups.outputs.paths }}
-          group-by: name #format,flags
+          group-by: format
 
       - name: Create matrix
         id: create-matrix
+        if: ${{ steps.merge-groups.outputs.count > 1 }}
         uses: yoanm/temp-reports-group-workspace/utils/matrix-with-artifacts@feature/improve
         with:
           json-paths-list: ${{ steps.merge-groups.outputs.list }}
           from-artifact-directory: job-artifacts
+
+      - name: Upload single group
+        if: ${{ steps.merge-groups.outputs.count == 1 }}
+        id: upload
+        uses: yoanm/temp-reports-group-workspace/uploaders/codecov@feature/improve
+        with:
+          path: job-artifacts
+          token: ${{ secrets.TOKEN }}
+          force-git-commit: ${{ inputs.force-git-commit }}
+          force-git-branch: ${{ inputs.force-git-branch }}
+          force-gh-pr: ${{ inputs.force-gh-pr }}
+          force-uploader-build: ${{ inputs.force-uploader-build }}
+          force-uploader-build-url: ${{ inputs.force-uploader-build-url }}
+          follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
+
+      - name: Build single group upload summary
+        if: ${{ steps.merge-groups.outputs.count == 1 }}
+        uses: actions/github-script@v7
+        continue-on-error: true
+        env:
+          DATA: ${{ steps.upload.outputs.metadata }}
+          FLAGS: ${{ steps.upload.outputs.flags }}
+        with:
+          script: |
+            const path = require('path');
+            const {DATA, FLAGS} = process.env;
+            const decodedData = JSON.parse(DATA);
+            await core.summary
+              .addHeading('Uploaded reports')
+              .addTable([
+                [
+                  {data: '📦 Artifact', header: true},
+                  {data: '🧰 Group', header: true},
+                  {data: '📝 Reports', header: true}
+                ],
+                ...decodedData.map(info => [
+                  path.basename(path.dirname(info.path)),
+                  info.name,
+                  '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>',
+                ])
+              ])
+            ;
+            if (!!FLAGS) {
+              await core.summary
+                .addRaw('🚩 Flags').addBreak()
+                .addList(FLAGS.split('\n'))
+              ;
+            }
+            await core.summary.write();
 
   uploads:
     name: "Upload #${{ matrix.job }}"

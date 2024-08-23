@@ -25,7 +25,8 @@ async function run() {
     core.info('Merge metadata list');
     const trustedMetadataListOfList = SDK.merge.groupMetadataList(trustedMetadataList, GROUP_BY_INPUT.split(',') as MergeField[]);
     SDK.outputs.bindFrom({
-        list: JSON.stringify(trustedMetadataListOfList.map(mdList => mdList.map(md => md.path)))
+        list: JSON.stringify(trustedMetadataListOfList.map(mdList => mdList.map(md => md.path))),
+        count: trustedMetadataListOfList.length,
     });
 }
 

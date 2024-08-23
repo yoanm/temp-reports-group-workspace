@@ -22,6 +22,8 @@ inputs:
 outputs:
   list:
     description: JSON encoded array, each item being an array of path to group directories
+  count:
+    description: Number of group generated
 
 runs:
   using: 'node20'
