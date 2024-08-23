@@ -40,7 +40,7 @@ async function run() {
         })
     };
     SDK.outputs.bindFrom({
-        matrix: JSON.stringify({include : matrix}),
+        matrix: JSON.stringify(matrix),
     });
 }
 

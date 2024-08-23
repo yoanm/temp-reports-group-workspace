@@ -120,20 +120,18 @@ jobs:
 
       - name: DEBUG
         shell: bash
-        run: |
-          echo "${{ steps.find-groups.outputs }}"
+        run: echo 'outputs='"'"'${{ toJson(steps.find-groups.outputs) }}'"'"
 
       - name: Merge groups
         id: merge-groups
         uses: yoanm/temp-reports-group-workspace/merge-groups@feature/improve
         with:
-          path: ${{ steps.find-groups.outputs.paths }}
+          paths: ${{ steps.find-groups.outputs.paths }}
           group-by: name #format,flags
 
       - name: DEBUG
         shell: bash
-        run: |
-          echo "${{ steps.merge-groups.outputs }}"
+        run: echo 'outputs='"'"'${{ toJson(steps.merge-groups.outputs) }}'"'"
 
       - name: Create matrix
         id: create-matrix
@@ -144,8 +142,7 @@ jobs:
 
       - name: DEBUG
         shell: bash
-        run: |
-          echo "${{ steps.create-matrix.outputs }}"
+        run: echo 'outputs='"'"'${{ toJson(steps.create-matrix.outputs) }}'"'"
 
   uploads:
     name: "Upload #${{ matrix.job }}"
