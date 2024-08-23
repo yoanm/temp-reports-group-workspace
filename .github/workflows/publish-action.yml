@@ -16,5 +16,3 @@ jobs:
 
       - name: Generate vX and vX.Y tags
         uses: yoanm/gha-versioning@v0
-        with:
-          tag: ${{ github.event.release.tag_name }}
