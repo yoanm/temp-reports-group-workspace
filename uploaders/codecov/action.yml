@@ -58,9 +58,6 @@ outputs:
   groups:
     description: TODO
     value: ${{ steps.build-outputs.outputs.groups }}
-  names:
-    description: TODO
-    value: ${{ steps.build-outputs.outputs.names }}
   reports:
     description: TODO
     value: ${{ steps.build-outputs.outputs.reports }}

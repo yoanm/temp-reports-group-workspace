@@ -176,10 +176,12 @@ jobs:
         continue-on-error: true
         env:
           DATA: ${{ steps.upload.outputs.metadata }}
+          FLAGS: ${{ steps.upload.outputs.flags }}
         with:
           script: |
             const path = require('path');
-            const decodedData = JSON.parse(process.env.DATA);
+            const {DATA, FLAGS} = process.env;
+            const decodedData = JSON.parse(DATA);
             await core.summary
               .addHeading('Uploaded reports')
               .addTable([
@@ -194,7 +196,11 @@ jobs:
                   '<ul><li>' + info.reports.map(r => path.basename(r)).join('</li><li>') + '</li></ul>',
                 ])
               ])
-              .addRaw('🚩 Flags').addBreak()
-              .addList(decodedData[0].flags)
-              .write()
             ;
+            if (!!FLAGS) {
+              await core.summary
+                .addRaw('🚩 Flags').addBreak()
+                .addList(FLAGS.split('\n'))
+              ;
+            }
+            await core.summary.write();
