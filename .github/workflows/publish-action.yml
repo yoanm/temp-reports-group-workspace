@@ -13,11 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.release.tag_name }}
-          fetch-depth: 0
 
       - name: Generate vX and vX.Y tags
-        uses: yoanm/gha-versioning@master
+        uses: yoanm/gha-versioning@v0
         with:
           tag: ${{ github.event.release.tag_name }}
