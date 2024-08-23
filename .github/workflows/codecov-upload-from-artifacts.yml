@@ -76,7 +76,7 @@ jobs:
     name: Merge groups by flag
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.create-matrix.outputs.matrix ? steps.create-matrix.outputs.matrix | '[]' }}
+      matrix: ${{ steps.create-matrix.outputs.matrix && steps.create-matrix.outputs.matrix || toJson('[]') }}
     permissions:
       contents: read
       checks: write
