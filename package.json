@@ -18,7 +18,7 @@
     "uploaders/codecov",
     "utils/attach-check-run-to-triggering-workflow",
     "utils/fetch-workflow-metadata",
-    "utils/matrix-from-group-paths",
+    "utils/matrix-with-artifacts",
     "sdk/gha-sdk",
     "sdk/node-sdk"
   ],

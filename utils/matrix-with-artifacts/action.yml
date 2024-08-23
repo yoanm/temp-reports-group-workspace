@@ -7,8 +7,7 @@ inputs:
     required: true
   from-artifact-directory:
     description: TODO
-    required: false
-    default: ''
+    required: true
 
 outputs:
   matrix:

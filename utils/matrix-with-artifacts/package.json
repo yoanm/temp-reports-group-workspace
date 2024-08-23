@@ -1,5 +1,5 @@
 {
-  "name": "matrix-from-group-paths",
+  "name": "matrix-with-artifacts",
   "private": true,
   "license": "AGPL-3.0-only",
   "dependencies": {

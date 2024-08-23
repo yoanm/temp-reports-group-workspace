@@ -118,10 +118,6 @@ jobs:
           path: job-artifacts
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
-      - name: DEBUG
-        shell: bash
-        run: echo 'outputs='"'"'${{ toJson(steps.find-groups.outputs) }}'"'"
-
       - name: Merge groups
         id: merge-groups
         uses: yoanm/temp-reports-group-workspace/merge-groups@feature/improve
@@ -129,20 +125,12 @@ jobs:
           paths: ${{ steps.find-groups.outputs.paths }}
           group-by: name #format,flags
 
-      - name: DEBUG
-        shell: bash
-        run: echo 'outputs='"'"'${{ toJson(steps.merge-groups.outputs) }}'"'"
-
       - name: Create matrix
         id: create-matrix
-        uses: yoanm/temp-reports-group-workspace/utils/matrix-from-group-paths@feature/improve
+        uses: yoanm/temp-reports-group-workspace/utils/matrix-with-artifacts@feature/improve
         with:
           json-paths-list: ${{ steps.merge-groups.outputs.list }}
           from-artifact-directory: job-artifacts
-
-      - name: DEBUG
-        shell: bash
-        run: echo 'outputs='"'"'${{ toJson(steps.create-matrix.outputs) }}'"'"
 
   uploads:
     name: "Upload #${{ matrix.job }}"
