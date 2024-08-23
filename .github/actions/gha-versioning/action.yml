@@ -77,7 +77,7 @@ runs:
         # otherwise, github releases won't take it automatically as latest tag to automatically generate the changelog !
         git config --global user.email "$GIT_EMAIL"
         git config --global user.name "$GIT_NAME"
-        git tag -f $MAJOR_TAG -m "Linked to $FULL_TAG tag" && \
-          git tag -f $MINOR_TAG -m "Linked to $FULL_TAG tag"   && \
-          sleep 1 && git tag -f $FULL_TAG -m "See also $MAJOR_TAG or $MINOR_TAG tags" && \
-          git push origin --force $MINOR_TAG $MAJOR_TAG $FULL_TAG;
+        git tag -f -a $MAJOR_TAG -m "Linked to $FULL_TAG tag" && \
+          git tag -f -a $MINOR_TAG -m "Linked to $FULL_TAG tag"   && \
+          git push origin --force $MINOR_TAG $MAJOR_TAG $FULL_TAG
+        # sleep 1 && git tag -f $FULL_TAG -m "See also $MAJOR_TAG or $MINOR_TAG tags" && \
