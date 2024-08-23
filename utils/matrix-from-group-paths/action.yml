@@ -1,0 +1,19 @@
+name: TODO
+description: TODO
+
+inputs:
+  json-paths-list:
+    description: TODO
+    required: true
+  from-artifact-directory:
+    description: TODO
+    required: false
+    default: ''
+
+outputs:
+  matrix:
+    description: TODO
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

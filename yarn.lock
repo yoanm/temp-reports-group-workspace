@@ -1363,6 +1363,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"matrix-from-group-paths@workspace:utils/matrix-from-group-paths":
+  version: 0.0.0-use.local
+  resolution: "matrix-from-group-paths@workspace:utils/matrix-from-group-paths"
+  dependencies:
+    "@actions/core": "npm:^1.10.1"
+    "@tsconfig/node20": "npm:^20.1.4"
+    "@types/node": "npm:^22.5.0"
+    "@vercel/ncc": "npm:^0.38.1"
+    eslint: "npm:^9.9.0"
+    node-sdk: "workspace:^"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
+"merge-groups@workspace:merge-groups":
+  version: 0.0.0-use.local
+  resolution: "merge-groups@workspace:merge-groups"
+  dependencies:
+    "@actions/core": "npm:^1.10.1"
+    "@tsconfig/node20": "npm:^20.1.4"
+    "@types/node": "npm:^22.5.0"
+    "@vercel/ncc": "npm:^0.38.1"
+    eslint: "npm:^9.9.0"
+    node-sdk: "workspace:^"
+    typescript: "npm:^5.5.4"
+  languageName: unknown
+  linkType: soft
+
 "minimatch@npm:^3.0.4, minimatch@npm:^3.1.2":
   version: 3.1.2
   resolution: "minimatch@npm:3.1.2"

@@ -12,11 +12,13 @@
   "workspaces": [
     "create-group",
     "find-groups",
+    "merge-groups",
     "load-metadata",
     "uploaders/codacy",
     "uploaders/codecov",
     "utils/attach-check-run-to-triggering-workflow",
     "utils/fetch-workflow-metadata",
+    "utils/matrix-from-group-paths",
     "sdk/gha-sdk",
     "sdk/node-sdk"
   ],
