@@ -68,5 +68,5 @@ runs:
         # git config --global user.name "github-actions"
         git tag -f $MAJOR_TAG -m "Major tag for $FULL_TAG" && \
           git tag -f $MINOR_TAG -m "Minor tag for $FULL_TAG"   && \
-          git tag -f $FULL_TAG -m "$FULL_TAG (see also $MAJOR_TAG or $MINOR_TAG)" && \
+          sleep 1 && git tag -f $FULL_TAG -m "$FULL_TAG (see also $MAJOR_TAG or $MINOR_TAG)" && \
           git push origin --force $MINOR_TAG $MAJOR_TAG $FULL_TAG;
