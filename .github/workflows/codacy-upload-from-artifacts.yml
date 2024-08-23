@@ -1,4 +1,3 @@
-# To store on same repo as reports-group/codacy action if doable !
 name: 'Codacy report groups upload'
 on:
   workflow_call:

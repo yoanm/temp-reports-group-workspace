@@ -1,4 +1,3 @@
-# To store on same repo as reports-group/codecov action if doable
 name: 'Codecov report groups upload'
 on:
   workflow_call:
