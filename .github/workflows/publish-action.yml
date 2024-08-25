@@ -8,11 +8,14 @@ jobs:
   tag:
     name: Publish vX and vX.Y tags
     runs-on: ubuntu-latest
+    if: ${{ github.event.release.prerelease == false && github.event.release.draft == false }}
     permissions:
-      contents: write # Required to push new tags !
+      contents: write # Required to manage tags & releases !
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Generate vX and vX.Y tags
         uses: yoanm/gha-versioning@v1
+        with:
+          update-inner-releases: true
