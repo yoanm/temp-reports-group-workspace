@@ -9,12 +9,12 @@
   },
   "devDependencies": {
     "@octokit/core": "^6.1.2",
-    "@octokit/plugin-paginate-rest": "^11.3.3",
-    "@octokit/plugin-rest-endpoint-methods": "^13.2.4",
+    "@octokit/plugin-paginate-rest": "^11.3.4",
+    "@octokit/plugin-rest-endpoint-methods": "^13.2.5",
     "@octokit/types": "^13.5.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^22.5.4",
-    "@vercel/ncc": "^0.38.1",
+    "@vercel/ncc": "^0.38.2",
     "eslint": "^9.10.0",
     "typescript": "^5.5.4"
   }
