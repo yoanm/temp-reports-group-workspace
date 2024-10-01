@@ -1,1 +1,1 @@
-export const METADATA_FILENAME = '.reports-group-metadata.json';
+export const METADATA_FILENAME = 'metadata.json';
