@@ -314,14 +314,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/plugin-paginate-rest@npm:^11.3.3":
-  version: 11.3.3
-  resolution: "@octokit/plugin-paginate-rest@npm:11.3.3"
+"@octokit/plugin-paginate-rest@npm:^11.3.6":
+  version: 11.3.6
+  resolution: "@octokit/plugin-paginate-rest@npm:11.3.6"
   dependencies:
-    "@octokit/types": "npm:^13.5.0"
+    "@octokit/types": "npm:^13.6.2"
   peerDependencies:
     "@octokit/core": ">=6"
-  checksum: 10c0/f1fd41e0ae47d6813d283e0e4ab89f4a9d55dbc8ec1a44b5bb00355007e5260db124a10f94b34a86b0305a1adda61c35cd57c0914c7c093c05f93199be87459e
+  checksum: 10c0/b269193d1fd2c7a551e529359f5bcc9d0a29fddccc31008d18281db2874fb83a99e999f2c7486c41adf5cf97f54fd3b115ab0e46d2b785073b53353a213ed928
   languageName: node
   linkType: hard
 
@@ -347,14 +347,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@octokit/plugin-rest-endpoint-methods@npm:^13.2.4":
-  version: 13.2.4
-  resolution: "@octokit/plugin-rest-endpoint-methods@npm:13.2.4"
+"@octokit/plugin-rest-endpoint-methods@npm:^13.2.6":
+  version: 13.2.6
+  resolution: "@octokit/plugin-rest-endpoint-methods@npm:13.2.6"
   dependencies:
-    "@octokit/types": "npm:^13.5.0"
+    "@octokit/types": "npm:^13.6.1"
   peerDependencies:
     "@octokit/core": ">=6"
-  checksum: 10c0/7a63b37bb1eb9972e3cc2cf6e6b53ad5c14152767420a7f9ec4ccf2557b411fd0df442cf98866fa09ebbd39f1e69b688730feaf3cfd4056713e73a33c40ed04f
+  checksum: 10c0/9b38187c8fb72cb43c77808d737580e5d71c8cf2133b1975badff36663754485bc999987e173201f6485f514287f22b36535dc1ec7e55575932e4494d780e366
   languageName: node
   linkType: hard
 
@@ -420,6 +420,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@octokit/types@npm:^13.6.1, @octokit/types@npm:^13.6.2":
+  version: 13.6.2
+  resolution: "@octokit/types@npm:13.6.2"
+  dependencies:
+    "@octokit/openapi-types": "npm:^22.2.0"
+  checksum: 10c0/ea51afb21b667b25dad9e5daae1701da1b362a4d6ed9609f6d3f9f219e5389bf50f7e53ae029ca190750e278be3ab963cac648a95ad248f245a5fda16a4f1ed1
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -443,14 +452,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vercel/ncc@npm:^0.38.1":
-  version: 0.38.1
-  resolution: "@vercel/ncc@npm:0.38.1"
+"@vercel/ncc@npm:^0.38.3":
+  version: 0.38.3
+  resolution: "@vercel/ncc@npm:0.38.3"
   dependencies:
     node-gyp: "npm:latest"
   bin:
     ncc: dist/ncc/cli.js
-  checksum: 10c0/3e6c08251ccc8c6c7ca6523f223e326c70950af787259252c8a19ef04a7f8cc4c42d4c1ddb94f227a9d0d1c5429f71e303daf6a356948b4f81bcd38d075c9b24
+  checksum: 10c0/91b328b53d3bb17ac2fd329d9d2115192d2001e52a7f6d38828ce878e465f3bc62031a8b206bdbbf90e449c11f9e411f853f7081a6e2947ef3459365fa12da49
   languageName: node
   linkType: hard
 
@@ -564,7 +573,7 @@ __metadata:
     "@actions/github": "npm:^6.0.0"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     gha-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -705,7 +714,7 @@ __metadata:
     "@actions/io": "npm:^1.1.3"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     node-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -960,7 +969,7 @@ __metadata:
     "@actions/core": "npm:^1.10.1"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     gha-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -983,7 +992,7 @@ __metadata:
     "@actions/core": "npm:^1.10.1"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     node-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -1052,12 +1061,12 @@ __metadata:
     "@actions/core": "npm:^1.10.1"
     "@actions/github": "npm:^6.0.0"
     "@octokit/core": "npm:^6.1.2"
-    "@octokit/plugin-paginate-rest": "npm:^11.3.3"
-    "@octokit/plugin-rest-endpoint-methods": "npm:^13.2.4"
+    "@octokit/plugin-paginate-rest": "npm:^11.3.6"
+    "@octokit/plugin-rest-endpoint-methods": "npm:^13.2.6"
     "@octokit/types": "npm:^13.5.0"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     typescript: "npm:^5.5.4"
   languageName: unknown
@@ -1314,7 +1323,7 @@ __metadata:
     "@actions/core": "npm:^1.10.1"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     node-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -1379,7 +1388,7 @@ __metadata:
     "@actions/core": "npm:^1.10.1"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     node-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -1393,7 +1402,7 @@ __metadata:
     "@actions/core": "npm:^1.10.1"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     node-sdk: "workspace:^"
     typescript: "npm:^5.5.4"
@@ -1559,7 +1568,7 @@ __metadata:
     "@actions/glob": "npm:^0.5.0"
     "@tsconfig/node20": "npm:^20.1.4"
     "@types/node": "npm:^22.5.4"
-    "@vercel/ncc": "npm:^0.38.1"
+    "@vercel/ncc": "npm:^0.38.3"
     eslint: "npm:^9.10.0"
     typescript: "npm:^5.5.4"
   languageName: unknown
