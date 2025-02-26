@@ -81,7 +81,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@dependabot/npm_and_yarn/security-dev-903f86c803
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: Codedov - Merge groups
@@ -112,21 +112,21 @@ jobs:
 
       - name: Find groups
         id: find-groups
-        uses: yoanm/temp-reports-group-workspace/find-groups@v0
+        uses: yoanm/temp-reports-group-workspace/find-groups@dependabot/npm_and_yarn/security-dev-903f86c803
         with:
           path: job-artifacts
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
       - name: Merge groups
         id: merge-groups
-        uses: yoanm/temp-reports-group-workspace/merge-groups@v0
+        uses: yoanm/temp-reports-group-workspace/merge-groups@dependabot/npm_and_yarn/security-dev-903f86c803
         with:
           paths: ${{ steps.find-groups.outputs.paths }}
           group-by: flags
 
       - name: Create matrix
         id: create-matrix
-        uses: yoanm/temp-reports-group-workspace/utils/matrix-with-artifacts@v0
+        uses: yoanm/temp-reports-group-workspace/utils/matrix-with-artifacts@dependabot/npm_and_yarn/security-dev-903f86c803
         with:
           json-paths-list: ${{ steps.merge-groups.outputs.list }}
           from-artifact-directory: job-artifacts
@@ -144,7 +144,7 @@ jobs:
       checks: write
     steps:
       - name: 'Check run ○'
-        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@v0
+        uses: yoanm/temp-reports-group-workspace/utils/attach-check-run-to-triggering-workflow@dependabot/npm_and_yarn/security-dev-903f86c803
         #if: ${{ 'workflow_run' == github.event_name }}
         with:
           name: "Codedov - Upload #${{ matrix.job }}"
@@ -159,7 +159,7 @@ jobs:
 
       - name: Upload reports
         id: upload
-        uses: yoanm/temp-reports-group-workspace/uploaders/codecov@v0
+        uses: yoanm/temp-reports-group-workspace/uploaders/codecov@dependabot/npm_and_yarn/security-dev-903f86c803
         with:
           path: ${{ matrix.paths }}
           token: ${{ secrets.TOKEN }}
