@@ -13,9 +13,9 @@
     "@octokit/plugin-rest-endpoint-methods": "^13.2.4",
     "@octokit/types": "^13.5.0",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.14.1",
     "@vercel/ncc": "^0.38.1",
-    "eslint": "^9.10.0",
-    "typescript": "^5.5.4"
+    "eslint": "^9.24.0",
+    "typescript": "^5.8.3"
   }
 }
