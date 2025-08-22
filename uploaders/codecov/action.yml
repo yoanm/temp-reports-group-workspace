@@ -111,6 +111,7 @@ runs:
         # GHAction behavior
         fail_ci_if_error: true
         verbose: ${{ runner.debug == '1' }}
+        version: v11.0.6
 
     - name: Build action outputs
       id: build-outputs
