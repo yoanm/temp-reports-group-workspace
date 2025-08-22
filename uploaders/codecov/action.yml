@@ -86,7 +86,7 @@ runs:
 
     - name: Load groups metadata
       id: load-metadata
-      uses: yoanm/temp-reports-group-workspace/load-metadata@v0
+      uses: yoanm/temp-reports-group-workspace/load-metadata@fix/codecov-uploader
       with:
         path: ${{ inputs.path }}
         format: string # String in order to concatenate interesting values
@@ -95,7 +95,7 @@ runs:
 
     - name: Upload to codecov
       id: upload
-      uses: codecov/codecov-action@v4
+      uses: codecov/codecov-action@v5
       with:
         token: ${{ inputs.token }}
         name: ${{ steps.load-metadata.outputs.names }}
