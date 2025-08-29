@@ -48,6 +48,16 @@ inputs:
       
       In case input is filled, `force-uploader-build` input most likely need to be filled too in order to keep consitency between values !
     required: false
+  force-uploader-version:
+    default: v10.2.1 # Pinned in order to avoid issue => https://github.com/codecov/codecov-action/issues/1801
+    description: |
+      Force `version` input of `codecov/codecov-action`
+    required: false
+  force-uploader-verbosity:
+    default: ${{ runner.debug == '1' }}
+    description: |
+      Force `verbose` input of `codecov/codecov-action`
+    required: false
   ## <<< Override underlying uploader inputs <<<
   follow-symbolic-links:
     description: Indicates whether to follow symbolic links when resolving `path`
@@ -110,8 +120,8 @@ runs:
         disable_search: true
         # GHAction behavior
         fail_ci_if_error: true
-        verbose: ${{ runner.debug == '1' }}
-        version: v10.2.1
+        version: ${{ inputs.force-uploader-version }}
+        verbose: ${{ inputs.force-uploader-verbosity }}
 
     - name: Build action outputs
       id: build-outputs
