@@ -49,6 +49,17 @@ on:
           In case input is filled, `force-uploader-build` input most likely need to be filled too in order to keep consitency between values !
         required: false
         type: string
+      force-uploader-version:
+        default: v10.2.1 # Pinned in order to avoid issue => https://github.com/codecov/codecov-action/issues/1801
+        description: |
+          Force `version` input of `codecov/codecov-action`
+        required: false
+        type: string
+      force-uploader-verbosity:
+        description: |
+          Force `verbose` input of `codecov/codecov-action`
+        required: false
+        type: boolean
       ## <<< Override underlying uploader inputs <<<
       follow-symbolic-links:
         description: |
@@ -168,6 +179,8 @@ jobs:
           force-gh-pr: ${{ inputs.force-gh-pr }}
           force-uploader-build: ${{ inputs.force-uploader-build }}
           force-uploader-build-url: ${{ inputs.force-uploader-build-url }}
+          force-uploader-version: ${{ inputs.force-uploader-version }}
+          force-uploader-verbosity: ${{ inputs.force-uploader-verbosity }}
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
       - name: Build summary
