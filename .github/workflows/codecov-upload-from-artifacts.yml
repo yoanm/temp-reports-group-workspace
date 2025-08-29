@@ -54,11 +54,12 @@ on:
         description: |
           Force `version` input of `codecov/codecov-action`
         required: false
+        type: string
       force-uploader-verbosity:
-        default: ${{ runner.debug == '1' }}
         description: |
           Force `verbose` input of `codecov/codecov-action`
         required: false
+        type: boolean
       ## <<< Override underlying uploader inputs <<<
       follow-symbolic-links:
         description: |
