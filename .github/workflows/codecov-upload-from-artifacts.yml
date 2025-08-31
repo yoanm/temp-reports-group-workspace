@@ -113,7 +113,7 @@ jobs:
             }
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ inputs.artifact }}
           pattern: ${{ inputs.artifacts-pattern }}
@@ -161,7 +161,7 @@ jobs:
           name: "Codedov - Upload #${{ matrix.job }}"
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: ${{ matrix.artifacts-dwl-pattern }}
           path: job-artifacts
