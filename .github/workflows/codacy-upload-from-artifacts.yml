@@ -75,7 +75,7 @@ jobs:
           name: Codacy upload
 
       - name: Validate inputs
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         env:
           INPUT_ARTIFACT: ${{ inputs.artifact }}
           INPUT_ARTIFACTS-PATTERN: ${{ inputs.artifacts-pattern }}
@@ -90,7 +90,7 @@ jobs:
             }
 
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: ${{ inputs.artifact }}
           pattern: ${{ inputs.artifacts-pattern }}
@@ -111,7 +111,7 @@ jobs:
           follow-symbolic-links: ${{ inputs.follow-symbolic-links }}
 
       - name: Build summary
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         continue-on-error: true
         env:
           DATA: ${{ steps.upload.outputs.metadata }}
