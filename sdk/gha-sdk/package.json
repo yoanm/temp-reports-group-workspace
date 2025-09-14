@@ -8,12 +8,12 @@
     "@actions/github": "^6.0.0"
   },
   "devDependencies": {
-    "@octokit/core": "^6.1.2",
-    "@octokit/plugin-paginate-rest": "^11.5.0",
-    "@octokit/plugin-rest-endpoint-methods": "^13.2.4",
-    "@octokit/types": "^13.5.0",
+    "@octokit/core": "^7.0.3",
+    "@octokit/plugin-paginate-rest": "^13.1.1",
+    "@octokit/plugin-rest-endpoint-methods": "^16.0.0",
+    "@octokit/types": "^14.1.0",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^22.5.4",
+    "@types/node": "^24.3.3",
     "@vercel/ncc": "^0.38.1",
     "eslint": "^9.33.0",
     "typescript": "^5.9.2"
