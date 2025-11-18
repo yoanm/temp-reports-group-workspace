@@ -23,7 +23,7 @@
     "sdk/node-sdk"
   ],
   "devDependencies": {
-    "@yarnpkg/types": "^4.0.0",
+    "@yarnpkg/types": "^4.0.1",
     "typescript": "^5.9.2"
   },
   "packageManager": "yarn@4.1.1"
