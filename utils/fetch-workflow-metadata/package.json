@@ -7,7 +7,7 @@
     "gha-sdk": "workspace:^"
   },
   "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/node20": "^20.1.8",
     "@types/node": "^22.5.4",
     "@vercel/ncc": "^0.38.1",
     "eslint": "^9.33.0",
