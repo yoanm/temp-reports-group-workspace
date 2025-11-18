@@ -165,7 +165,11 @@ jobs:
           name: "Codedov - Upload #${{ matrix.job }}"
 
       - name: Download artifacts
-        uses: actions/download-artifact@v6
+        # /!\ DO NOT move to v5+ until https://github.com/actions/download-artifact/issues/426 is not fixed 👇👇👇
+        # Otherwise, when only one artifact matches the pattern, the artifact name is not used as parent folder,
+        # which breaks yoanm/temp-reports-group-workspace/utils/matrix-with-artifacts as the artifact name is expected to be the parent folder
+        # /!\ DO NOT move to v5+ until https://github.com/actions/download-artifact/issues/426 is not fixed 👆👆👆
+        uses: actions/download-artifact@v4
         with:
           pattern: ${{ matrix.artifacts-dwl-pattern }}
           path: job-artifacts
